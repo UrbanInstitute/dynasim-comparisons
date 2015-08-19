@@ -81,4 +81,5 @@ all = left_join(all,s3,by=c("year","category","catval", "percentile"))
 all = left_join(all,s4,by=c("year","category","catval", "percentile"))
 write.csv(all, "data/allscenarios.csv",na="",row.names = F)
 
-all$temp = (all$wealth_3 - all$wealth_4)
+#read in later sessions
+all <- read.csv("data/allscenarios.csv", stringsAsFactors = F)
