@@ -7,7 +7,13 @@ var linechart_aspect_height = 0.8;
 
 var COLORS = ["#fdbf11", "#ca5800", "#1696d2", "#a2d4ec"];
 var GROUPS = ["ss_1", "ss_2", "ss_3", "ss_4"];
-var categories = [1, 2, 3, 4];
+
+var racenames = ["White", "Black", "Hispanic", "Other"];
+var marstatnames = ["Single", "Married", "Divorced", "Widowed"];
+var gendernames = ["Female", "Male"];
+var educnames = ["Some High School", "High School Graduate", "Some College", "College Graduate"];
+var agenames = ["62-69", "70-74", "75-79", "80-84", "85+"];
+
 
 function bardraw() {
     var margin = {
@@ -55,9 +61,9 @@ function bardraw() {
         .tickFormat(d3.format("$,.1s"))
         .orient("left");
 
-    //just want the main five
+    //filter - later do this with dropdowns
     data = minutes.filter(function (d) {
-        return d.year == "2045" & d.category == "race";
+        return d.year == "2045" & d.category == "age";
     });
 
     var charts = d3.nest()
@@ -69,7 +75,7 @@ function bardraw() {
     var data_nest = [];
 
     //nest data by GROUP variable
-    for (i = 0; i < categories.length; i++) {
+    for (i = 0; i < agenames.length; i++) {
         var chart = GROUPS.map(function (name) {
             return {
                 name: name,
@@ -82,7 +88,7 @@ function bardraw() {
             };
         });
         data_nest[i] = {
-            key: i + 1,
+            key: agenames[i],
             values: chart
         };
     }
@@ -124,7 +130,7 @@ function bardraw() {
         .attr("x", 0)
         .attr("y", -25)
         .text(function (d) {
-            return d.key
+            return d.key;
         });
 
     var line = d3.svg.line()
