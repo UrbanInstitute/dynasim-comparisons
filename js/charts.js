@@ -16,6 +16,7 @@ function bardraw() {
         bottom: 40,
         left: 100
     };
+
     if ($linechart.width() < mobile_threshold) {
         margin.right = 15;
         margin.left = 20;
@@ -42,9 +43,6 @@ function bardraw() {
         .domain(GROUPS)
         .range(COLORS);
 
-    var chart = d3.scale.ordinal()
-        .domain(categories);
-
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom");
@@ -52,12 +50,11 @@ function bardraw() {
     var yAxis = d3.svg.axis()
         .scale(y)
         .tickSize(-width)
-        .orient("left")
-        .ticks(8);
+        .orient("left");
 
     //just want the main five
     data = minutes.filter(function (d) {
-        return d.year == "2015" & d.category == "race" & d.percentile < 100;
+        return d.year == "2015" & d.category == "race";
     });
 
     var charts = d3.nest()
@@ -66,31 +63,46 @@ function bardraw() {
         })
         .entries(data);
 
-    var final = color.domain().map(function (name) {
+    var final = charts.map(function (name) {
         return {
             name: name,
-            values: charts.map(function (d) {
+            values: GROUPS.map(function (d) {
                 return {
                     percentile: d.percentile,
                     category: d.catval,
-                    val: +d[name]
+                    val: +d.wealth_1
                 };
             })
         };
     });
 
-    console.log(final);
+    y.domain([0, 500000]);
 
-    y.domain([0, 2000000]);
+    var data_nest = [];
 
     //nest data by GROUP variable
-    data_nest = d3.nest().key(function (d) {
-        return d.name;
-    }).entries(final);
+    for (i = 0; i < 4; i++) {
+        var chart = GROUPS.map(function (name) {
+            return {
+                name: name,
+                values: (charts[i].values).map(function (d) {
+                    return {
+                        percentile: d.percentile,
+                        val: +d[name]
+                    };
+                })
+            };
+        });
+        data_nest[i] = {
+            key: i + 1,
+            values: chart
+        };
+    }
+    console.log(data_nest);
 
-    // Add an SVG for each character
+    // Add an SVG for each demographic value
     var svg = d3.select("#linechart").selectAll("svg")
-        .data(final)
+        .data(data_nest)
         .enter()
         .append("svg:svg")
         .attr("width", width + margin.left + margin.right)
@@ -137,8 +149,8 @@ function bardraw() {
         });
 
     var lines = svg.selectAll(".group")
-        .data(final, function (d) {
-            return d.key;
+        .data(function (d) {
+            return d.values;
         })
         .enter().append("g")
         .attr("class", "group");
@@ -149,10 +161,10 @@ function bardraw() {
             return line(d.values);
         })
         .attr("id", function (d) {
-            return d.key;
+            return d.name;
         })
         .attr("stroke", function (d) {
-            return color(d.key);
+            return color(d.name);
         });
 
 }
