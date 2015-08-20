@@ -3,19 +3,23 @@ var data;
 var $linechart = $('#linechart');
 var linechart_data_url = "data/allscenarios.csv";
 var linechart_aspect_width = 1;
-var linechart_aspect_height = 0.8;
+var linechart_aspect_height;
 
-var COLORS = ["#fdbf11", "#ca5800", "#1696d2", "#a2d4ec"];
-var GROUPS = ["ss_1", "ss_2", "ss_3", "ss_4"];
+var COLORS = ["#fdbf11", "#e66600", "#1696d2", "#a2d4ec"];
+var GROUPS = ["ss_1", "ss_2", "ss_3", "ss_4"]
+var LABELS;
+var demSelect;
+var yearSelect;
 
-var racenames = ["White", "Black", "Hispanic", "Other"];
-var marstatnames = ["Single", "Married", "Divorced", "Widowed"];
-var gendernames = ["Female", "Male"];
-var educnames = ["Some High School", "High School Graduate", "Some College", "College Graduate"];
-var agenames = ["62-69", "70-74", "75-79", "80-84", "85+"];
+var names = {
+    race: ["White", "Black", "Hispanic", "Other"],
+    marstat: ["Single", "Married", "Divorced", "Widowed"],
+    gender: ["Female", "Male"],
+    education: ["Some High School", "High School Graduate", "Some College", "College Graduate"],
+    age: ["62-69", "70-74", "75-79", "80-84", "85+"]
+};
 
-
-function bardraw() {
+function maingraph() {
     var margin = {
         top: 45,
         right: 40,
@@ -24,19 +28,14 @@ function bardraw() {
     };
 
     if ($linechart.width() < mobile_threshold) {
-        margin.right = 15;
-        margin.left = 20;
         var width = $linechart.width() - margin.left - margin.right;
-    } else if (mobile_threshold <= $linechart.width() && $linechart.width() < 1000) {
-        var width = ($linechart.width() - margin.left - margin.right) / 2;
     } else {
-        var width = ($linechart.width() - margin.left - margin.right) / 3;
+        var width = ($linechart.width() - margin.left - margin.right) / 2.5;
     }
 
     var height = Math.ceil((width * linechart_aspect_height) / linechart_aspect_width) - margin.top - margin.bottom;
 
     $linechart.empty();
-
 
     var x = d3.scale.linear()
         .domain([0, 100])
@@ -63,19 +62,20 @@ function bardraw() {
 
     //filter - later do this with dropdowns
     data = minutes.filter(function (d) {
-        return d.year == "2045" & d.category == "age";
+        return d.year == yearSelect & d.category == demSelect;
     });
+    LABELS = names[demSelect];
 
+    //first nest by values of the demographic category
     var charts = d3.nest()
         .key(function (d) {
             return d.catval;
         })
         .entries(data);
 
+    //then for each demographic value, make nested arrays for each line with each {X, Y} pair
     var data_nest = [];
-
-    //nest data by GROUP variable
-    for (i = 0; i < agenames.length; i++) {
+    for (i = 0; i < LABELS.length; i++) {
         var chart = GROUPS.map(function (name) {
             return {
                 name: name,
@@ -88,7 +88,7 @@ function bardraw() {
             };
         });
         data_nest[i] = {
-            key: agenames[i],
+            key: LABELS[i],
             values: chart
         };
     }
@@ -126,7 +126,7 @@ function bardraw() {
     //Title for each chart
     svg.append("g")
         .append("text")
-        .attr("class", "chartTitle")
+        .attr("class", "h4")
         .attr("x", 0)
         .attr("y", -25)
         .text(function (d) {
@@ -163,13 +163,20 @@ function bardraw() {
 
 }
 
+function drawcharts() {
+    linechart_aspect_height = 0.8;
+    demSelect = "age";
+    yearSelect = 2015;
+    maingraph();
+}
+
 $(window).load(function () {
     if (Modernizr.svg) { // if svg is supported, draw dynamic chart
         d3.csv(linechart_data_url, function (min) {
             minutes = min;
 
-            bardraw();
-            window.onresize = bardraw();
+            drawcharts();
+            window.onresize = drawcharts;
         });
     }
 });
