@@ -6,10 +6,17 @@ var linechart_aspect_width = 1;
 var linechart_aspect_height;
 
 var COLORS = ["#fdbf11", "#e66600", "#1696d2", "#a2d4ec"];
-var GROUPS = ["ss_1", "ss_2", "ss_3", "ss_4"]
-var LABELS;
-var demSelect;
-var yearSelect;
+var LABELS,
+    demSelect,
+    yearSelect,
+    outcomeSelect;
+
+
+var groups = {
+    ss: ["ss_1", "ss_2", "ss_3", "ss_4"],
+    wealth: ["wealth_1", "wealth_2", "wealth_3", "wealth_4"],
+    income: ["income_1", "income_2", "income_3", "income_4"]
+};
 
 var names = {
     race: ["White", "Black", "Hispanic", "Other"],
@@ -18,6 +25,12 @@ var names = {
     education: ["Some High School", "High School Graduate", "Some College", "College Graduate"],
     age: ["62-69", "70-74", "75-79", "80-84", "85+"]
 };
+
+var ymax = {
+    ss: 50000,
+    wealth: 2000000,
+    income: 500000
+}
 
 function maingraph() {
     var margin = {
@@ -42,11 +55,10 @@ function maingraph() {
         .range([0, width]);
 
     var y = d3.scale.linear()
-        .domain([0, 60000])
         .range([height, 0]);
 
     var color = d3.scale.ordinal()
-        .domain(GROUPS)
+        .domain(groups[outcomeSelect])
         .range(COLORS);
 
     var xAxis = d3.svg.axis()
@@ -76,7 +88,7 @@ function maingraph() {
     //then for each demographic value, make nested arrays for each line with each {X, Y} pair
     var data_nest = [];
     for (i = 0; i < LABELS.length; i++) {
-        var chart = GROUPS.map(function (name) {
+        var chart = (groups[outcomeSelect]).map(function (name) {
             return {
                 name: name,
                 values: (charts[i].values).map(function (d) {
@@ -92,7 +104,8 @@ function maingraph() {
             values: chart
         };
     }
-    console.log(data_nest);
+
+    y.domain([0, (ymax[outcomeSelect])]);
 
     // Add an SVG for each demographic value
     var svg = d3.select("#linechart").selectAll("svg")
@@ -133,42 +146,51 @@ function maingraph() {
             return d.key;
         });
 
-    var line = d3.svg.line()
-        .interpolate("basis")
-        .x(function (d) {
-            return x(d.percentile);
-        })
-        .y(function (d) {
-            return y(d.val);
-        });
+    function drawlines() {
+        var line = d3.svg.line()
+            .interpolate("basis")
+            .x(function (d) {
+                return x(d.percentile);
+            })
+            .y(function (d) {
+                return y(d.val);
+            });
 
-    var lines = svg.selectAll(".group")
-        .data(function (d) {
-            return d.values;
-        })
-        .enter().append("g")
-        .attr("class", "group");
+        var lines = svg.selectAll(".group")
+            .data(function (d) {
+                return d.values;
+            })
+            .enter().append("g")
+            .attr("class", "group");
 
-    lines.append("path")
-        .attr("class", "chartline")
-        .attr("d", function (d) {
-            return line(d.values);
-        })
-        .attr("id", function (d) {
-            return d.name;
-        })
-        .attr("stroke", function (d) {
-            return color(d.name);
-        });
+        lines.append("path")
+            .attr("class", "chartline")
+            .attr("d", function (d) {
+                return line(d.values);
+            })
+            .attr("id", function (d) {
+                return d.name;
+            })
+            .attr("stroke", function (d) {
+                return color(d.name);
+            });
+    }
+    drawlines();
 
 }
 
 function drawcharts() {
     linechart_aspect_height = 0.8;
-    demSelect = "age";
-    yearSelect = 2015;
+    demSelect = d3.select("#dem-select").property("value");
+    yearSelect = d3.select("#year-select").property("value");
+    outcomeSelect = d3.select("#outcome-select").property("value");
     maingraph();
 }
+
+d3.selectAll(".selector")
+    .on("change", function (d, i) {
+        drawcharts();
+    });
 
 $(window).load(function () {
     if (Modernizr.svg) { // if svg is supported, draw dynamic chart

@@ -23,6 +23,40 @@
             <div class="col-lg-12">
                 <h1>Using DYNASIM to Explore Policy Options</h1>
 
+                <p>
+                    Show the distribution of
+                    <div class="styled-select">
+                        <select id="outcome-select" class="selector">
+                            <option value="income">Income</option>
+                            <option value="ss">Social security</option>
+                            <option value="wealth">Wealth</option>
+                        </select>
+                    </div>
+                    in
+                    <div class="styled-select">
+                        <select id="year-select" class="selector">
+                            <option value="2015">2015</option>
+                            <option value="2025">2025</option>
+                            <option value="2035">2035</option>
+                            <option value="2045">2045</option>
+                            <option value="2055">2055</option>
+                            <option value="2065">2065</option>
+                        </select>
+                    </div>
+                    by
+                    <div class="styled-select">
+                        <select id="dem-select" class="selector"> 
+                            <option value="race">Race</option>
+                            <option value="age">Age</option>
+                            <option value="gender">Gender</option>
+                            <option value="education">Education</option>
+                            <option value="marstat">Marital status</option>
+                        </select>
+                    </div>
+                </p>
+
+            <h3>Poliy scenarios</h3>
+            <p>Many policy scenarios overlap. To isolate specific scenarios, use the on/off switches. [legend]</p>
                 <div id="linechart" class="graph"></div>
 
             </div>

@@ -3,7 +3,8 @@ body {
     color: #333;
 }
 
-#graph {
+.graph {
+    margin-top: 30px;
     width: 100%;
 }
 /*line chart value line*/
