@@ -5,8 +5,8 @@ var linechart_data_url = "data/allscenarios.csv";
 var linechart_aspect_width = 1;
 var linechart_aspect_height = 0.8;
 
-var COLORS = ["#1696d2", "#fdbf11", "#ec008b", "#55b748"];
-var GROUPS = ["wealth_1", "wealth_2", "wealth_3", "wealth_4"];
+var COLORS = ["#fdbf11", "#ca5800", "#1696d2", "#a2d4ec"];
+var GROUPS = ["ss_1", "ss_2", "ss_3", "ss_4"];
 var categories = [1, 2, 3, 4];
 
 function bardraw() {
@@ -33,10 +33,11 @@ function bardraw() {
 
 
     var x = d3.scale.linear()
-        .domain([0, 99])
+        .domain([0, 100])
         .range([0, width]);
 
     var y = d3.scale.linear()
+        .domain([0, 60000])
         .range([height, 0]);
 
     var color = d3.scale.ordinal()
@@ -50,11 +51,13 @@ function bardraw() {
     var yAxis = d3.svg.axis()
         .scale(y)
         .tickSize(-width)
+        .ticks(6)
+        .tickFormat(d3.format("$,.1s"))
         .orient("left");
 
     //just want the main five
     data = minutes.filter(function (d) {
-        return d.year == "2015" & d.category == "race";
+        return d.year == "2045" & d.category == "race";
     });
 
     var charts = d3.nest()
@@ -63,25 +66,10 @@ function bardraw() {
         })
         .entries(data);
 
-    var final = charts.map(function (name) {
-        return {
-            name: name,
-            values: GROUPS.map(function (d) {
-                return {
-                    percentile: d.percentile,
-                    category: d.catval,
-                    val: +d.wealth_1
-                };
-            })
-        };
-    });
-
-    y.domain([0, 500000]);
-
     var data_nest = [];
 
     //nest data by GROUP variable
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < categories.length; i++) {
         var chart = GROUPS.map(function (name) {
             return {
                 name: name,
