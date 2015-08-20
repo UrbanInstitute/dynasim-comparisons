@@ -32,6 +32,12 @@ var ymax = {
     income: 500000
 }
 
+var yformat = {
+    ss: d3.format("$,.1s"),
+    wealth: d3.format("$,.2s"),
+    income: d3.format("$,.1s")
+}
+
 function maingraph() {
     var margin = {
         top: 45,
@@ -69,7 +75,7 @@ function maingraph() {
         .scale(y)
         .tickSize(-width)
         .ticks(6)
-        .tickFormat(d3.format("$,.1s"))
+        .tickFormat(yformat[outcomeSelect])
         .orient("left");
 
     //filter - later do this with dropdowns
