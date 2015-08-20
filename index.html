@@ -23,6 +23,7 @@
             <div class="col-lg-12">
                 <h1>Using DYNASIM to Explore Policy Options</h1>
 
+                <div id="dropdowns">
                     Show the distribution of
                     <div class="styled-select">
                         <select id="outcome-select" class="selector">
@@ -44,7 +45,7 @@
                     </div>
                     by
                     <div class="styled-select">
-                        <select id="dem-select" class="selector"> 
+                        <select id="dem-select" class="selector">
                             <option value="race">Race</option>
                             <option value="age">Age</option>
                             <option value="gender">Gender</option>
@@ -52,9 +53,23 @@
                             <option value="marstat">Marital status</option>
                         </select>
                     </div>
-                
-            <h3>Policy scenarios</h3>
-            <p>Many policy scenarios overlap. To isolate specific scenarios, use the on/off switches. [legend]</p>
+                </div>
+
+                <div id="legend">
+                    <h3>Policy scenarios</h3>
+                    <h4>Per Capita</h4>
+                    Current Law Scheduled
+                    Current Law Payable
+                    <h4>Equivalent</h4>
+                    Current Law Scheduled
+                    Current Law Payable
+                    <h4>Increases in...</h4>
+                    Social Security Taxable Maximum
+                    Full Retirement Age
+                    Payroll Tax
+                    <p>Many policy scenarios overlap. To isolate specific scenarios, use the on/off switches. [legend]</p>
+                </div>
+
                 <div id="linechart" class="graph"></div>
 
             </div>
