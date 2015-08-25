@@ -64,12 +64,38 @@
 }
 
 .scenario {
-    font-size: 16px;
-    color: #333;
-    width: 350px;
+    font-size: 14px;
+    width: 275px;
     height: 2em;
-    background-color: #ccc;
     display: inline-block;
     padding-left: 15px;
     margin-right: 30px;
+}
+.s1 {
+    background-color: #fdbf11;
+    color: #333;
+}
+.s2 {
+    background-color: #e66600;
+    color: #fff;
+}
+.s3 {
+    background-color: #1696d2;
+    color: #fff;
+}
+.s4 {
+    background-color: #a2d4ec;
+    color: #333;
+}
+.s5 {
+    background-color: #ec008b;
+    color: #fff;
+}
+.s6 {
+    background-color: #55b748;
+    color: #fff;
+}
+.s7 {
+    background-color: #ccc;
+    color: #333;
 }
