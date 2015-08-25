@@ -191,6 +191,19 @@ function drawcharts() {
     yearSelect = d3.select("#year-select").property("value");
     outcomeSelect = d3.select("#outcome-select").property("value");
     maingraph();
+
+    var onoff = d3.selectAll(".chartline");
+    onoff.on("mouseover", function () {
+        var moused_id = this.id;
+        onoff.classed("off", function () {
+            return this.id === moused_id;
+        });
+    })
+
+    onoff.on("mouseout", function () {
+        onoff.classed("off", false);
+    })
+
 }
 
 d3.selectAll(".selector")
