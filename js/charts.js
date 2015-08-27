@@ -51,6 +51,7 @@ function maingraph() {
     };
 
     if ($linechart.width() < mobile_threshold) {
+        linechart_aspect_height = 1.1;
         var width = $linechart.width() - margin.left - margin.right;
     } else {
         var width = ($linechart.width() - margin.left - margin.right) / 2.3;
