@@ -11,7 +11,6 @@ var LABELS,
     yearSelect,
     outcomeSelect;
 
-
 var groups = {
     ss: ["ss_1", "ss_2", "ss_3", "ss_4"],
     wealth: ["wealth_1", "wealth_2", "wealth_3", "wealth_4"],
@@ -38,6 +37,11 @@ var yformat = {
     income: d3.format("$,.1s")
 }
 
+var show1 = true,
+    show3 = true,
+    show3 = true,
+    show4 = true;
+
 function maingraph() {
     var margin = {
         top: 45,
@@ -61,6 +65,7 @@ function maingraph() {
         .range([0, width]);
 
     var y = d3.scale.linear()
+        .domain([0, (ymax[outcomeSelect])])
         .range([height, 0]);
 
     var color = d3.scale.ordinal()
@@ -111,7 +116,6 @@ function maingraph() {
         };
     }
 
-    y.domain([0, (ymax[outcomeSelect])]);
 
     // Add an SVG for each demographic value
     var svg = d3.select("#linechart").selectAll("svg")
@@ -169,13 +173,15 @@ function maingraph() {
             .enter().append("g")
             .attr("class", "group");
 
+        //id = scenario number
         lines.append("path")
             .attr("class", "chartline")
             .attr("d", function (d) {
                 return line(d.values);
             })
             .attr("id", function (d) {
-                return d.name;
+                var splitter = d.name.split("_");
+                return "s" + splitter[splitter.length - 1];
             })
             .attr("stroke", function (d) {
                 return color(d.name);
@@ -192,17 +198,37 @@ function drawcharts() {
     outcomeSelect = d3.select("#outcome-select").property("value");
     maingraph();
 
-    var onoff = d3.selectAll(".chartline");
-    onoff.on("mouseover", function () {
-        var moused_id = this.id;
-        onoff.classed("off", function () {
-            return this.id === moused_id;
-        });
-    })
+    d3.select("div#s3").on("click", function () {
+        if (show3 == true) {
+            d3.select("#s3.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s3.chartline")
+                .attr("opacity", 0);
+            show3 = false;
+        } else {
+            d3.select("#s3.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s3.chartline")
+                .attr("opacity", 1);
+            show3 = true;
+        }
+    });
 
-    onoff.on("mouseout", function () {
-        onoff.classed("off", false);
-    })
+    d3.select("div#s4").on("click", function () {
+        if (show4 == true) {
+            d3.select("#s4.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s4.chartline")
+                .attr("opacity", 0);
+            show4 = false;
+        } else {
+            d3.select("#s4.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s4.chartline")
+                .attr("opacity", 1);
+            show4 = true;
+        }
+    });
 
 }
 
