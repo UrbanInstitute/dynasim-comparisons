@@ -31,22 +31,6 @@
     position: relative;
 }
 
-.onoff {
-    font-size: 11px;
-    text-transform: uppercase;
-    width: 40px;
-    line-height: 12px;
-    margin-right: 9px;
-    top: 4px;
-    left: 4px;
-    position: relative;
-    background-color: #000;
-    border-radius: 10px;
-    border-color: none;
-    padding-top: 2px;
-    padding-bottom: 3px;
-}
-
 .off {
     background-position: 0px 0px;
 }

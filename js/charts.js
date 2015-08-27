@@ -29,16 +29,16 @@ var ymax = {
     ss: 50000,
     wealth: 2000000,
     income: 500000
-}
+};
 
 var yformat = {
     ss: d3.format("$,.1s"),
     wealth: d3.format("$,.2s"),
     income: d3.format("$,.1s")
-}
+};
 
 var show1 = true,
-    show3 = true,
+    show2 = true,
     show3 = true,
     show4 = true;
 
@@ -192,12 +192,48 @@ function maingraph() {
 }
 
 function drawcharts() {
+    //turn all the switches on
+    d3.selectAll(".switch")
+        .attr("class", "switch on");
+
     linechart_aspect_height = 0.8;
     demSelect = d3.select("#dem-select").property("value");
     yearSelect = d3.select("#year-select").property("value");
     outcomeSelect = d3.select("#outcome-select").property("value");
     maingraph();
 
+    d3.select("div#s1").on("click", function () {
+        if (show1 == true) {
+            d3.select("#s1.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s1.chartline")
+                .attr("opacity", 0);
+            show1 = false;
+        } else {
+            d3.select("#s1.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s1.chartline")
+                .attr("opacity", 1);
+            show1 = true;
+        }
+    });
+
+    d3.select("div#s2").on("click", function () {
+        if (show2 == true) {
+            d3.select("#s2.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s2.chartline")
+                .attr("opacity", 0);
+            show2 = false;
+        } else {
+            d3.select("#s2.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s2.chartline")
+                .attr("opacity", 1);
+            show2 = true;
+        }
+    });
+    
     d3.select("div#s3").on("click", function () {
         if (show3 == true) {
             d3.select("#s3.switch")
