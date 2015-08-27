@@ -37,10 +37,10 @@ var yformat = {
     income: d3.format("$,.1s")
 };
 
-var show1 = true,
-    show2 = true,
-    show3 = true,
-    show4 = true;
+var show1 = 1,
+    show2 = 1,
+    show3 = 1,
+    show4 = 1;
 
 function maingraph() {
     var margin = {
@@ -183,6 +183,17 @@ function maingraph() {
                 var splitter = d.name.split("_");
                 return "s" + splitter[splitter.length - 1];
             })
+            .attr("opacity", function (d) {
+                if (d.name == "ss_1" | d.name == "wealth_1" | d.name == "income_1") {
+                    return show1;
+                } else if (d.name == "ss_2" | d.name == "wealth_2" | d.name == "income_2") {
+                    return show2;
+                } else if (d.name == "ss_3" | d.name == "wealth_3" | d.name == "income_3") {
+                    return show3;
+                } else if (d.name == "ss_4" | d.name == "wealth_4" | d.name == "income_4") {
+                    return show4;
+                }
+            })
             .attr("stroke", function (d) {
                 return color(d.name);
             });
@@ -192,9 +203,6 @@ function maingraph() {
 }
 
 function drawcharts() {
-    //turn all the switches on
-    d3.selectAll(".switch")
-        .attr("class", "switch on");
 
     linechart_aspect_height = 0.8;
     demSelect = d3.select("#dem-select").property("value");
@@ -202,71 +210,71 @@ function drawcharts() {
     outcomeSelect = d3.select("#outcome-select").property("value");
     maingraph();
 
-    d3.select("div#s1").on("click", function () {
-        if (show1 == true) {
-            d3.select("#s1.switch")
-                .attr("class", "switch off");
-            d3.selectAll("#s1.chartline")
-                .attr("opacity", 0);
-            show1 = false;
-        } else {
-            d3.select("#s1.switch")
-                .attr("class", "switch on");
-            d3.selectAll("#s1.chartline")
-                .attr("opacity", 1);
-            show1 = true;
-        }
-    });
-
-    d3.select("div#s2").on("click", function () {
-        if (show2 == true) {
-            d3.select("#s2.switch")
-                .attr("class", "switch off");
-            d3.selectAll("#s2.chartline")
-                .attr("opacity", 0);
-            show2 = false;
-        } else {
-            d3.select("#s2.switch")
-                .attr("class", "switch on");
-            d3.selectAll("#s2.chartline")
-                .attr("opacity", 1);
-            show2 = true;
-        }
-    });
-    
-    d3.select("div#s3").on("click", function () {
-        if (show3 == true) {
-            d3.select("#s3.switch")
-                .attr("class", "switch off");
-            d3.selectAll("#s3.chartline")
-                .attr("opacity", 0);
-            show3 = false;
-        } else {
-            d3.select("#s3.switch")
-                .attr("class", "switch on");
-            d3.selectAll("#s3.chartline")
-                .attr("opacity", 1);
-            show3 = true;
-        }
-    });
-
-    d3.select("div#s4").on("click", function () {
-        if (show4 == true) {
-            d3.select("#s4.switch")
-                .attr("class", "switch off");
-            d3.selectAll("#s4.chartline")
-                .attr("opacity", 0);
-            show4 = false;
-        } else {
-            d3.select("#s4.switch")
-                .attr("class", "switch on");
-            d3.selectAll("#s4.chartline")
-                .attr("opacity", 1);
-            show4 = true;
-        }
-    });
-
 }
+
+d3.select("div#s1").on("click", function () {
+    if (show1 == 1) {
+        d3.select("#s1.switch")
+            .attr("class", "switch off");
+        d3.selectAll("#s1.chartline")
+            .attr("opacity", 0);
+        show1 = 0;
+    } else {
+        d3.select("#s1.switch")
+            .attr("class", "switch on");
+        d3.selectAll("#s1.chartline")
+            .attr("opacity", 1);
+        show1 = 1;
+    }
+});
+
+d3.select("div#s2").on("click", function () {
+    if (show2 == 1) {
+        d3.select("#s2.switch")
+            .attr("class", "switch off");
+        d3.selectAll("#s2.chartline")
+            .attr("opacity", 0);
+        show2 = 0;
+    } else {
+        d3.select("#s2.switch")
+            .attr("class", "switch on");
+        d3.selectAll("#s2.chartline")
+            .attr("opacity", 1);
+        show2 = 1;
+    }
+});
+
+d3.select("div#s3").on("click", function () {
+    if (show3 == 1) {
+        d3.select("#s3.switch")
+            .attr("class", "switch off");
+        d3.selectAll("#s3.chartline")
+            .attr("opacity", 0);
+        show3 = 0;
+    } else {
+        d3.select("#s3.switch")
+            .attr("class", "switch on");
+        d3.selectAll("#s3.chartline")
+            .attr("opacity", 1);
+        show3 = 1;
+    }
+});
+
+d3.select("div#s4").on("click", function () {
+    if (show4 == 1) {
+        d3.select("#s4.switch")
+            .attr("class", "switch off");
+        d3.selectAll("#s4.chartline")
+            .attr("opacity", 0);
+        show4 = 0;
+    } else {
+        d3.select("#s4.switch")
+            .attr("class", "switch on");
+        d3.selectAll("#s4.chartline")
+            .attr("opacity", 1);
+        show4 = 1;
+    }
+});
 
 d3.selectAll(".selector")
     .on("change", function (d, i) {
