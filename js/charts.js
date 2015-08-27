@@ -1,4 +1,4 @@
-var mobile_threshold = 600;
+var mobile_threshold = 700;
 var data;
 var $linechart = $('#linechart');
 var linechart_data_url = "data/allscenarios.csv";
@@ -47,13 +47,13 @@ function maingraph() {
         top: 45,
         right: 40,
         bottom: 40,
-        left: 100
+        left: 40
     };
 
     if ($linechart.width() < mobile_threshold) {
         var width = $linechart.width() - margin.left - margin.right;
     } else {
-        var width = ($linechart.width() - margin.left - margin.right) / 2.5;
+        var width = ($linechart.width() - margin.left - margin.right) / 2.3;
     }
 
     var height = Math.ceil((width * linechart_aspect_height) / linechart_aspect_width) - margin.top - margin.bottom;
