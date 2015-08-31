@@ -151,7 +151,7 @@ function maingraph() {
     svg.append("g")
         .append("text")
         .attr("class", "h4")
-        .attr("x", 0)
+        .attr("x", -38)
         .attr("y", -25)
         .text(function (d) {
             return d.key;
