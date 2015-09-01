@@ -9,6 +9,9 @@
     stroke-width: 2px;
 }
 
+svg {
+    overflow: hidden;
+}
 /*standard axes*/
 
 .axis {
