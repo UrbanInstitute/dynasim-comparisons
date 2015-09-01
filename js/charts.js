@@ -93,7 +93,7 @@ function maingraph(container_width) {
 
     //filter - later do this with dropdowns
     data = minutes.filter(function (d) {
-        return d.year == yearSelect & d.category == demSelect;
+        return d.year == yearSelect & d.category == demSelect & d.percentile<100;
     });
     LABELS = names[demSelect];
 
