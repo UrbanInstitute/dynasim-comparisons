@@ -45,9 +45,9 @@ var show1 = 1,
     show4 = 1;
 
 function maingraph(container_width) {
-
+    
     if (container_width == undefined || isNaN(container_width)) {
-        container_width = 1300;
+        container_width = 1170;
     }
 
     var margin = {
