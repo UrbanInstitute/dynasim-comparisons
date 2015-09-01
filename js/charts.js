@@ -294,7 +294,7 @@ d3.selectAll(".selector")
 
 $(window).load(function () {
     if (Modernizr.svg) {
-        d3.json(linechart_data_url, function (error, min) {
+        d3.csv(linechart_data_url, function (error, min) {
             minutes = min;
             pymChild = new pym.Child({
                 renderCallback: drawcharts
