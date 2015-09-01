@@ -67,6 +67,7 @@ function maingraph(container_width) {
         linechart_aspect_height = 1.1;
         var width = container_width - margin.left - margin.right;
     } else {
+        linechart_aspect_height = 0.8;
         var width = (container_width - margin.left - margin.right) / 2.3;
     }
     
