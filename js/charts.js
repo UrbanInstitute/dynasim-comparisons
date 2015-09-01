@@ -4,7 +4,7 @@ var minutes;
 var $linechart = $('#linechart');
 var linechart_data_url = "data/allscenarios.csv";
 var linechart_aspect_width = 1;
-var linechart_aspect_height;
+var linechart_aspect_height = 0.8;
 var pymchild = null;
 
 var COLORS = ["#fdbf11", "#e66600", "#1696d2", "#a2d4ec"];
@@ -45,7 +45,13 @@ var show1 = 1,
     show4 = 1;
 
 function maingraph(container_width) {
-    
+
+    demSelect = d3.select("#dem-select").property("value");
+    yearSelect = d3.select("#year-select").property("value");
+    outcomeSelect = d3.select("#outcome-select").property("value");
+
+    console.log(container_width);
+
     if (container_width == undefined || isNaN(container_width)) {
         container_width = 1170;
     }
@@ -63,7 +69,7 @@ function maingraph(container_width) {
     } else {
         var width = (container_width - margin.left - margin.right) / 2.3;
     }
-
+    
     var height = Math.ceil((width * linechart_aspect_height) / linechart_aspect_width) - margin.top - margin.bottom;
 
     $linechart.empty();
@@ -212,92 +218,85 @@ function maingraph(container_width) {
 
 }
 
-function drawcharts() {
+function selections() {
 
-    linechart_aspect_height = 0.8;
-    demSelect = d3.select("#dem-select").property("value");
-    yearSelect = d3.select("#year-select").property("value");
-    outcomeSelect = d3.select("#outcome-select").property("value");
-    maingraph();
-
-}
-
-d3.select("div#s1").on("click", function () {
-    if (show1 == 1) {
-        d3.select("#s1.switch")
-            .attr("class", "switch off");
-        d3.selectAll("#s1.chartline")
-            .attr("opacity", 0);
-        show1 = 0;
-    } else {
-        d3.select("#s1.switch")
-            .attr("class", "switch on");
-        d3.selectAll("#s1.chartline")
-            .attr("opacity", 1);
-        show1 = 1;
-    }
-});
-
-d3.select("div#s2").on("click", function () {
-    if (show2 == 1) {
-        d3.select("#s2.switch")
-            .attr("class", "switch off");
-        d3.selectAll("#s2.chartline")
-            .attr("opacity", 0);
-        show2 = 0;
-    } else {
-        d3.select("#s2.switch")
-            .attr("class", "switch on");
-        d3.selectAll("#s2.chartline")
-            .attr("opacity", 1);
-        show2 = 1;
-    }
-});
-
-d3.select("div#s3").on("click", function () {
-    if (show3 == 1) {
-        d3.select("#s3.switch")
-            .attr("class", "switch off");
-        d3.selectAll("#s3.chartline")
-            .attr("opacity", 0);
-        show3 = 0;
-    } else {
-        d3.select("#s3.switch")
-            .attr("class", "switch on");
-        d3.selectAll("#s3.chartline")
-            .attr("opacity", 1);
-        show3 = 1;
-    }
-});
-
-d3.select("div#s4").on("click", function () {
-    if (show4 == 1) {
-        d3.select("#s4.switch")
-            .attr("class", "switch off");
-        d3.selectAll("#s4.chartline")
-            .attr("opacity", 0);
-        show4 = 0;
-    } else {
-        d3.select("#s4.switch")
-            .attr("class", "switch on");
-        d3.selectAll("#s4.chartline")
-            .attr("opacity", 1);
-        show4 = 1;
-    }
-});
-
-d3.selectAll(".selector")
-    .on("change", function (d, i) {
-        drawcharts();
+    d3.select("div#s1").on("click", function () {
+        if (show1 == 1) {
+            d3.select("#s1.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s1.chartline")
+                .attr("opacity", 0);
+            show1 = 0;
+        } else {
+            d3.select("#s1.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s1.chartline")
+                .attr("opacity", 1);
+            show1 = 1;
+        }
     });
 
+    d3.select("div#s2").on("click", function () {
+        if (show2 == 1) {
+            d3.select("#s2.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s2.chartline")
+                .attr("opacity", 0);
+            show2 = 0;
+        } else {
+            d3.select("#s2.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s2.chartline")
+                .attr("opacity", 1);
+            show2 = 1;
+        }
+    });
+
+    d3.select("div#s3").on("click", function () {
+        if (show3 == 1) {
+            d3.select("#s3.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s3.chartline")
+                .attr("opacity", 0);
+            show3 = 0;
+        } else {
+            d3.select("#s3.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s3.chartline")
+                .attr("opacity", 1);
+            show3 = 1;
+        }
+    });
+
+    d3.select("div#s4").on("click", function () {
+        if (show4 == 1) {
+            d3.select("#s4.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s4.chartline")
+                .attr("opacity", 0);
+            show4 = 0;
+        } else {
+            d3.select("#s4.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s4.chartline")
+                .attr("opacity", 1);
+            show4 = 1;
+        }
+    });
+
+    d3.selectAll(".selector")
+        .on("change", function (d, i) {
+            maingraph();
+        });
+}
 
 $(window).load(function () {
     if (Modernizr.svg) {
         d3.csv(linechart_data_url, function (error, min) {
             minutes = min;
+            selections();
             pymChild = new pym.Child({
-                renderCallback: drawcharts
+                renderCallback: maingraph
             });
         });
     } else {
