@@ -1,9 +1,11 @@
 var mobile_threshold = 700;
 var data;
+var minutes;
 var $linechart = $('#linechart');
 var linechart_data_url = "data/allscenarios.csv";
 var linechart_aspect_width = 1;
 var linechart_aspect_height;
+var pymchild = null;
 
 var COLORS = ["#fdbf11", "#e66600", "#1696d2", "#a2d4ec"];
 var LABELS,
@@ -42,7 +44,12 @@ var show1 = 1,
     show3 = 1,
     show4 = 1;
 
-function maingraph() {
+function maingraph(container_width) {
+
+    if (container_width == undefined || isNaN(container_width)) {
+        container_width = 1300;
+    }
+
     var margin = {
         top: 45,
         right: 40,
@@ -50,11 +57,11 @@ function maingraph() {
         left: 40
     };
 
-    if ($linechart.width() < mobile_threshold) {
+    if (container_width < mobile_threshold) {
         linechart_aspect_height = 1.1;
-        var width = $linechart.width() - margin.left - margin.right;
+        var width = container_width - margin.left - margin.right;
     } else {
-        var width = ($linechart.width() - margin.left - margin.right) / 2.3;
+        var width = (container_width - margin.left - margin.right) / 2.3;
     }
 
     var height = Math.ceil((width * linechart_aspect_height) / linechart_aspect_width) - margin.top - margin.bottom;
@@ -157,49 +164,51 @@ function maingraph() {
             return d.key;
         });
 
-    function drawlines() {
-        var line = d3.svg.line()
-            .interpolate("basis")
-            .x(function (d) {
-                return x(d.percentile);
-            })
-            .y(function (d) {
-                return y(d.val);
-            });
+    var line = d3.svg.line()
+        .interpolate("basis")
+        .x(function (d) {
+            return x(d.percentile);
+        })
+        .y(function (d) {
+            return y(d.val);
+        });
 
-        var lines = svg.selectAll(".group")
-            .data(function (d) {
-                return d.values;
-            })
-            .enter().append("g")
-            .attr("class", "group");
+    var lines = svg.selectAll(".group")
+        .data(function (d) {
+            return d.values;
+        })
+        .enter().append("g")
+        .attr("class", "group");
 
-        //id = scenario number
-        lines.append("path")
-            .attr("class", "chartline")
-            .attr("d", function (d) {
-                return line(d.values);
-            })
-            .attr("id", function (d) {
-                var splitter = d.name.split("_");
-                return "s" + splitter[splitter.length - 1];
-            })
-            .attr("opacity", function (d) {
-                if (d.name == "ss_1" | d.name == "wealth_1" | d.name == "income_1") {
-                    return show1;
-                } else if (d.name == "ss_2" | d.name == "wealth_2" | d.name == "income_2") {
-                    return show2;
-                } else if (d.name == "ss_3" | d.name == "wealth_3" | d.name == "income_3") {
-                    return show3;
-                } else if (d.name == "ss_4" | d.name == "wealth_4" | d.name == "income_4") {
-                    return show4;
-                }
-            })
-            .attr("stroke", function (d) {
-                return color(d.name);
-            });
+    //id = scenario number
+    lines.append("path")
+        .attr("class", "chartline")
+        .attr("d", function (d) {
+            return line(d.values);
+        })
+        .attr("id", function (d) {
+            var splitter = d.name.split("_");
+            return "s" + splitter[splitter.length - 1];
+        })
+        .attr("opacity", function (d) {
+            if (d.name == "ss_1" | d.name == "wealth_1" | d.name == "income_1") {
+                return show1;
+            } else if (d.name == "ss_2" | d.name == "wealth_2" | d.name == "income_2") {
+                return show2;
+            } else if (d.name == "ss_3" | d.name == "wealth_3" | d.name == "income_3") {
+                return show3;
+            } else if (d.name == "ss_4" | d.name == "wealth_4" | d.name == "income_4") {
+                return show4;
+            }
+        })
+        .attr("stroke", function (d) {
+            return color(d.name);
+        });
+
+
+    if (pymChild) {
+        pymChild.sendHeight();
     }
-    drawlines();
 
 }
 
@@ -282,13 +291,16 @@ d3.selectAll(".selector")
         drawcharts();
     });
 
-$(window).load(function () {
-    if (Modernizr.svg) { // if svg is supported, draw dynamic chart
-        d3.csv(linechart_data_url, function (min) {
-            minutes = min;
 
-            drawcharts();
-            window.onresize = drawcharts;
+$(window).load(function () {
+    if (Modernizr.svg) {
+        d3.json(linechart_data_url, function (error, min) {
+            minutes = min;
+            pymChild = new pym.Child({
+                renderCallback: drawcharts
+            });
         });
+    } else {
+        pymChild = new pym.Child({});
     }
 });

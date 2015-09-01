@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dynasim Scenario Explorer</title>
+
+
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/charts.css">
+    <link rel="stylesheet" type="text/css" href="css/urban-text.css">
+    <link rel="stylesheet" type="text/css" href="css/urban-selects.css">
+    <link rel="stylesheet" type="text/css" href="css/urban-switch.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
+
+<body>
+    <div id="dropdowns">
+        Show the distribution of
+        <div class="styled-select">
+            <select id="outcome-select" class="selector">
+                <option value="income">Income</option>
+                <option value="ss">Social security</option>
+                <option value="wealth">Wealth</option>
+            </select>
+        </div>
+        in
+        <div class="styled-select">
+            <select id="year-select" class="selector">
+                <option value="2015">2015</option>
+                <option value="2025">2025</option>
+                <option value="2035">2035</option>
+                <option value="2045">2045</option>
+                <option value="2055">2055</option>
+                <option value="2065">2065</option>
+            </select>
+        </div>
+        by
+        <div class="styled-select">
+            <select id="dem-select" class="selector">
+                <option value="race">Race</option>
+                <option value="age">Age</option>
+                <option value="gender">Gender</option>
+                <option value="education">Education</option>
+                <option value="marstat">Marital status</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="legend">
+        <h3>Policy scenarios</h3>
+        <p><em>Many policy scenarios overlap. To isolate specific scenarios, use the on/off switches.</em>
+        </p>
+
+        <h4>Per Capita</h4>
+        <div class="urban-switch s3">
+            <div id="s3" class="switch on"></div>
+            Current Law Scheduled</div>
+        <div class="urban-switch s4">
+            <div id="s4" class="switch on"></div>
+            Current Law Payable</div>
+
+        <h4>Equivalent</h4>
+        <div class="urban-switch s2">
+            <div id="s2" class="switch on"></div>
+            Current Law Scheduled</div>
+        <div class="urban-switch s1">
+            <div id="s1" class="switch on"></div>
+            Current Law Payable</div>
+
+        <!--h4>Increases in...</h4>
+                    <div class="urban-switch s5">
+                        <div id="s5" class="switch on"></div>
+                        Social Security Taxable Maximum</div>
+                    <div class="urban-switch s6">
+                        <div id="s6" class="switch on"></div>
+                        Full Retirement Age</div>
+                    <div class="urban-switch s7">
+                        <div id="s7" class="switch on"></div>
+                        Payroll Tax</div>
+                </div-->
+    </div>
+    
+    <div id="linechart" class="graph"></div>
+
+
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/d3.min.js"></script>
+    <script src="lib/modernizr.svg.min.js"></script>
+    <script src="lib/pym.min.js"></script>
+    <script src="js/urban-selects.js"></script>
+    <script src="js/charts.js"></script>
+
+    <script>
+        var pymChild = new pym.Child();
+    </script>
+
+</body>
+
+</html>
