@@ -37,6 +37,12 @@ svg {
     font-size: 12px;
     color: #333;
 }
+
+.percentile {
+    font-size: 12px;
+    font-style: italic;
+    color: #333;
+}
 /*page elements*/
 
 #tag a {

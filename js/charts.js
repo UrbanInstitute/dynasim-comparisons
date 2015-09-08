@@ -27,6 +27,11 @@ var names = {
     age: ["62-69", "70-74", "75-79", "80-84", "85+"]
 };
 
+var xlabel = {
+    ss: "Social security percentile",
+    wealth: "Wealth percentile",
+    income: "Income percentile"
+}
 var ymax = {
     ss: 50000,
     wealth: 2000000,
@@ -50,8 +55,6 @@ function maingraph(container_width) {
     yearSelect = d3.select("#year-select").property("value");
     outcomeSelect = d3.select("#outcome-select").property("value");
 
-    console.log(container_width);
-
     if (container_width == undefined || isNaN(container_width)) {
         container_width = 1170;
     }
@@ -59,7 +62,7 @@ function maingraph(container_width) {
     var margin = {
         top: 45,
         right: 40,
-        bottom: 40,
+        bottom: 50,
         left: 40
     };
 
@@ -70,7 +73,7 @@ function maingraph(container_width) {
         linechart_aspect_height = 0.8;
         var width = (container_width - margin.left - margin.right) / 2.3;
     }
-    
+
     var height = Math.ceil((width * linechart_aspect_height) / linechart_aspect_width) - margin.top - margin.bottom;
 
     $linechart.empty();
@@ -170,6 +173,15 @@ function maingraph(container_width) {
         .text(function (d) {
             return d.key;
         });
+
+    //Percentile label
+    svg.append("g")
+        .append("text")
+        .attr("class", "percentile")
+        .attr("x", x(50))
+        .attr("y", height + 30)
+        .attr("text-anchor", "middle")
+        .text(xlabel[outcomeSelect]);
 
     var line = d3.svg.line()
         .interpolate("basis")
