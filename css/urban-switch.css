@@ -52,27 +52,27 @@
 }
 
 .s2 {
-    background-color: #e66600;
-    color: #fff;
-}
-
-.s3 {
-    background-color: #1696d2;
-    color: #fff;
-}
-
-.s4 {
-    background-color: #a2d4ec;
-    color: #333;
-}
-
-.s5 {
     background-color: #ec008b;
     color: #fff;
 }
 
-.s6 {
+.s3 {
+    background-color: #000000;
+    color: #fff;
+}
+
+.s4 {
+    background-color: #d2d2d2;
+    color: #333;
+}
+
+.s5 {
     background-color: #55b748;
+    color: #fff;
+}
+
+.s6 {
+    background-color: #0a4c6a;
     color: #fff;
 }
 
