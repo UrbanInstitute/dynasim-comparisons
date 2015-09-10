@@ -7,14 +7,15 @@
     font-size: 13px;
     font-family: Lato, sans-serif;
     height: 26px;
-    width: 265px;
+    width: 234px;
     border: none;
     display: inline-block;
     line-height: 12px;
     text-align: left;
-    margin-right: 30px;
+    margin-right: 25px;
     border-radius: 10px;
     padding-right: 10px;
+    margin-bottom: 10px;
 }
 
 .switch {
@@ -72,11 +73,16 @@
 }
 
 .s6 {
-    background-color: #0a4c6a;
+    background-color: #12719e;
     color: #fff;
 }
 
 .s7 {
-    background-color: #ccc;
-    color: #333;
+    background-color: #1696d2;
+    color: #fff;
+}
+
+.s8{
+    background-color: #999;
+    color: #fff;  
 }
