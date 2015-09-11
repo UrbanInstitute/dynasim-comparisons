@@ -2,14 +2,20 @@
 #Dynasim scenario comparisons
 #Read in data from multiple CSVs, reshape
 
-require(dplyr)
-require(tidyr)
-require(reshape2)
+library(dplyr)
+library(tidyr)
+library(reshape2)
 
-s1 <- read.csv("data/original/BPCid912EQUIVALENTPAYABLET3.csv", stringsAsFactors = F, na=".")
-s2 <- read.csv("data/original/BPCid912EQUIVALENTOPT0T3.csv", stringsAsFactors = F, na=".")
-s3 <- read.csv("data/original/BPCid912OPT0T3.csv", stringsAsFactors = F, na=".")
-s4 <- read.csv("data/original/BPCid912PAYABLET3.csv", stringsAsFactors = F, na=".")
+#Scenario names - Per capita = pc, Equivalent scale = eq
+#s1_pc = Current Law Scheduled Per Capita Income and Assets (OPT)
+#s1_eq = Current Law Scheduled Equivalent Income and Assets (equivalentOPT0)
+#s2_pc = Current Law Payable Per Capita Income and Assets (PAYABLE)
+#s2_eq = Current Law Payable Equivalent Income and Assets (equivalentPAYABLE)
+
+s1_pc <- read.csv("data/original/BPCid912OPT0T3.csv", stringsAsFactors = F, na=".")
+s1_eq <- read.csv("data/original/BPCid912EQUIVALENTOPT0T3.csv", stringsAsFactors = F, na=".")
+s2_pc <- read.csv("data/original/BPCid912PAYABLET3.csv", stringsAsFactors = F, na=".")
+s2_eq <- read.csv("data/original/BPCid912EQUIVALENTPAYABLET3.csv", stringsAsFactors = F, na=".")
 
 format <- function(dt) {
   dt <- dt %>% select(Obs,year,age,male,xeduc,marstat,raceeth, pcincQ, everything()) %>% 
@@ -29,10 +35,10 @@ format <- function(dt) {
                                               ifelse(!is.na(marstat), marstat,"")))))) %>% 
     select(catlab,everything()) %>% 
     select(-raceeth, -age, -male, -xeduc, -marstat, -Obs)  %>% 
-    mutate(catval=ifelse(catlab=="62-69" | catlab=="Female" | catlab=="1.High School Dropout" | catlab=="Single" | catlab=="1.White", 1, 
-                                    ifelse(catlab=="70-74" | catlab=="Male" | catlab=="2.High School Graduate" | catlab=="Married" | catlab=="2.Black", 2,
-                                           ifelse(catlab=="75-79" | catlab=="3.Some College" | catlab=="Divorced" | catlab=="3.Hispanic" , 3,
-                                                  ifelse(catlab=="80-84" | catlab=="4.College Graduate" | catlab=="Widowed" | catlab=="4.Other", 4,
+    mutate(catval=ifelse(catlab=="62-69" | catlab=="Female" | catlab=="1.High School Dropout" | catlab=="Married" | catlab=="1.White", 1, 
+                                    ifelse(catlab=="70-74" | catlab=="Male" | catlab=="2.High School Graduate" | catlab=="Divorced" | catlab=="2.Black", 2,
+                                           ifelse(catlab=="75-79" | catlab=="3.Some College" | catlab=="Widowed" | catlab=="3.Hispanic" , 3,
+                                                  ifelse(catlab=="80-84" | catlab=="4.College Graduate" | catlab=="Single" | catlab=="4.Other", 4,
                                                          ifelse(catlab=="85+", 5,"")))))) %>%
     select(year, category, catval, catlab, everything()) %>% arrange(year, category, catval)
   
@@ -59,27 +65,22 @@ format <- function(dt) {
 }
 
 #format all scenarios and export
-s1<-format(s1)
-s2<-format(s2)
-s3<-format(s3)
-s4<-format(s4)
-
-write.csv(s1, "data/payable_equivalent.csv",na="",row.names = F)
-write.csv(s2, "data/scheduled_equivalent.csv",na="",row.names = F)
-write.csv(s3, "data/scheduled_percapita.csv",na="",row.names = F)
-write.csv(s4, "data/payable_percapita.csv",na="",row.names = F)
+s1_pc<-format(s1_pc)
+s1_eq<-format(s1_eq)
+s2_pc<-format(s2_pc)
+s2_eq<-format(s2_eq)
 
 #rename vars and join scenarios into one big data frame
 
-s1 <- s1 %>% rename(wealth_1=wealth,ss_1=ss,income_1=income)
-s2 <- s2 %>% rename(wealth_2=wealth,ss_2=ss,income_2=income)
-s3 <- s3 %>% rename(wealth_3=wealth,ss_3=ss,income_3=income)
-s4 <- s4 %>% rename(wealth_4=wealth,ss_4=ss,income_4=income)
+s1_pc <- s1_pc %>% rename(wealth_1_pc=wealth,ss_1_pc=ss,income_1_pc=income)
+s1_eq <- s1_eq %>% rename(wealth_1_eq=wealth,ss_1_eq=ss,income_1_eq=income)
+s2_pc <- s2_pc %>% rename(wealth_2_pc=wealth,ss_2_pc=ss,income_2_pc=income)
+s2_eq <- s2_eq %>% rename(wealth_2_eq=wealth,ss_2_eq=ss,income_2_eq=income)
 
-all = left_join(s1,s2,by=c("year","category","catval", "percentile"))
-all = left_join(all,s3,by=c("year","category","catval", "percentile"))
-all = left_join(all,s4,by=c("year","category","catval", "percentile"))
-write.csv(all, "data/allscenarios.csv",na="",row.names = F)
+all <- left_join(s1_pc,s2_pc,by=c("year","category","catval", "percentile"))
+all <- left_join(all,s1_eq,by=c("year","category","catval", "percentile"))
+all <- left_join(all,s2_eq,by=c("year","category","catval", "percentile"))
+write.csv(all, "data/allscenarios_new.csv",na="",row.names = F)
 
 #read in later sessions
-all <- read.csv("data/allscenarios.csv", stringsAsFactors = F)
+all <- read.csv("data/allscenarios_new.csv", stringsAsFactors = F)
