@@ -18,13 +18,14 @@
     margin-right: 1px;
 }
 
-.urban-button:hover {
+.urban-button:hover,
+.btn-primary.active:hover {
     background-color: #000;
     text-decoration: none;
 }
 
 .button-selected,
-.button:checked {
+.btn-primary.active {
     background-color: #1696d2;
 }
 

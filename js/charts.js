@@ -208,6 +208,7 @@ function maingraph(container_width) {
         .enter().append("g")
         .attr("class", "group");
 
+    console.log(show1, show2);
     //id = scenario number
     lines.append("path")
         .attr("class", "chartline")
@@ -219,9 +220,10 @@ function maingraph(container_width) {
             return "s" + splitter[splitter.length - 2];
         })
         .attr("opacity", function (d) {
-            if (d.id == "s1") {
+            var splitter = d.name.split("_");
+            if (splitter[splitter.length - 2] == 1) {
                 return show1;
-            } else if (d.id == "s2") {
+            } else if (splitter[splitter.length - 2] == 2) {
                 return show2;
             }
         })
@@ -229,7 +231,7 @@ function maingraph(container_width) {
             return color(d.name);
         });
 
-    console.log(groupsSelect[outcomeSelect]);
+    //console.log(groupsSelect[outcomeSelect]);
 
     if (pymChild) {
         pymChild.sendHeight();
