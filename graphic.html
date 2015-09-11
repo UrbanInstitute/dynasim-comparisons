@@ -9,6 +9,7 @@
 
 
     <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/charts.css">
     <link rel="stylesheet" type="text/css" href="css/urban-text.css">
     <link rel="stylesheet" type="text/css" href="css/urban-selects.css">
@@ -85,26 +86,24 @@
 
         <p><em>Choose household size ajustment</em>
         </p>
-        <button class="urban-button button-selected">Per capita</button>
-        <button class="urban-button">Equivalent scale</button>
+        <!--button id="toggler" class="urban-button button-selected">Per capita</button-->
 
-        <!--h4>Increases in...</h4>
-                    <div class="urban-switch s5">
-                        <div id="s5" class="switch on"></div>
-                        Social Security Taxable Maximum</div>
-                    <div class="urban-switch s6">
-                        <div id="s6" class="switch on"></div>
-                        Full Retirement Age</div>
-                    <div class="urban-switch s7">
-                        <div id="s7" class="switch on"></div>
-                        Payroll Tax</div>
-                </div-->
+        <div id="toggler" class="btn-group" data-toggle="buttons">
+            <label class="urban-button btn btn-primary active">
+                <input type="radio" name="pceq" id="pc" autocomplete="off" checked>Per Capita
+            </label>
+            <label class="urban-button btn btn-primary">
+                <input type="radio" name="pceq" id="eq" autocomplete="off">Equivalent Scale
+            </label>
+        </div>
+
     </div>
 
     <div id="linechart" class="graph"></div>
     <button class="urban-button button-selected">Download detailed data tables</button>
 
     <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
     <script src="lib/d3.min.js"></script>
     <script src="lib/modernizr.svg.min.js"></script>
     <script src="lib/pym.min.js"></script>

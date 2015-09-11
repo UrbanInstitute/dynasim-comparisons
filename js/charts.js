@@ -2,27 +2,36 @@ var mobile_threshold = 700;
 var data;
 var minutes;
 var $linechart = $('#linechart');
-var linechart_data_url = "data/allscenarios.csv";
+var linechart_data_url = "data/allscenarios_new.csv";
 var linechart_aspect_width = 1;
 var linechart_aspect_height = 0.8;
 var pymchild = null;
+var equivbtn = false;
 
-var COLORS = ["#fdbf11", "#ec008b", "#1696d2", "#a2d4ec"];
+var COLORS = ["#fdbf11", "#ec008b"];
 var LABELS,
     demSelect,
     yearSelect,
     outcomeSelect;
 
-var groups = {
-    ss: ["ss_1", "ss_2", "ss_3", "ss_4"],
-    wealth: ["wealth_1", "wealth_2", "wealth_3", "wealth_4"],
-    income: ["income_1", "income_2", "income_3", "income_4"]
+var groups_pc = {
+    ss: ["ss_1_pc", "ss_2_pc"],
+    wealth: ["wealth_1_pc", "wealth_2_pc"],
+    income: ["income_1_pc", "income_2_pc"]
 };
+var groups_eq = {
+    ss: ["ss_1_eq", "ss_2_eq"],
+    wealth: ["wealth_1_eq", "wealth_2_eq"],
+    income: ["income_1_eq", "income_2_eq"]
+};
+var groupsSelect;
 
 var names = {
     race: ["Non-Hispanic white", "African-American", "Hispanic", "Other"],
-    //use with new data that has reordered catval: marstat: ["Married", "Divorced or separated", "Widowed", "Never married"],
-    marstat: ["Never married", "Married", "Divorced or separated", "Widowed"],
+    //use with new data that has reordered catval:
+    marstat: ["Married", "Divorced or separated", "Widowed", "Never married"],
+    //old order
+    //marstat: ["Never married", "Married", "Divorced or separated", "Widowed"],
     gender: ["Female", "Male"],
     education: ["No high school diploma", "High school diploma only", "Some college but no bachelor’s degree", "Bachelor’s degree"],
     age: ["62-69", "70-74", "75-79", "80-84", "85+"]
@@ -55,6 +64,12 @@ function maingraph(container_width) {
     demSelect = d3.select("#dem-select").property("value");
     yearSelect = d3.select("#year-select").property("value");
     outcomeSelect = d3.select("#outcome-select").property("value");
+    var temp = d3.select('input[name="pceq"]:checked').node().id;
+    if (temp == "pc") {
+        groupsSelect = groups_pc;
+    } else if (temp == "eq") {
+        groupsSelect = groups_eq;
+    }
 
     if (container_width == undefined || isNaN(container_width)) {
         container_width = 1170;
@@ -88,7 +103,7 @@ function maingraph(container_width) {
         .range([height, 0]);
 
     var color = d3.scale.ordinal()
-        .domain(groups[outcomeSelect])
+        .domain(groupsSelect[outcomeSelect])
         .range(COLORS);
 
     var xAxis = d3.svg.axis()
@@ -104,7 +119,7 @@ function maingraph(container_width) {
 
     //filter - later do this with dropdowns
     data = minutes.filter(function (d) {
-        return d.year == yearSelect & d.category == demSelect & d.percentile<91;
+        return d.year == yearSelect & d.category == demSelect & d.percentile < 91;
     });
     LABELS = names[demSelect];
 
@@ -118,7 +133,7 @@ function maingraph(container_width) {
     //then for each demographic value, make nested arrays for each line with each {X, Y} pair
     var data_nest = [];
     for (i = 0; i < LABELS.length; i++) {
-        var chart = (groups[outcomeSelect]).map(function (name) {
+        var chart = (groupsSelect[outcomeSelect]).map(function (name) {
             return {
                 name: name,
                 values: (charts[i].values).map(function (d) {
@@ -234,6 +249,10 @@ function maingraph(container_width) {
 
 function selections() {
 
+    $('#toggler').click(function (e) {
+        maingraph();
+    });
+
     d3.select("div#s1").on("click", function () {
         if (show1 == 1) {
             d3.select("#s1.switch")
@@ -266,37 +285,37 @@ function selections() {
         }
     });
 
-    d3.select("div#s3").on("click", function () {
-        if (show3 == 1) {
-            d3.select("#s3.switch")
-                .attr("class", "switch off");
-            d3.selectAll("#s3.chartline")
-                .attr("opacity", 0);
-            show3 = 0;
-        } else {
-            d3.select("#s3.switch")
-                .attr("class", "switch on");
-            d3.selectAll("#s3.chartline")
-                .attr("opacity", 1);
-            show3 = 1;
-        }
-    });
+    /*    d3.select("div#s3").on("click", function () {
+            if (show3 == 1) {
+                d3.select("#s3.switch")
+                    .attr("class", "switch off");
+                d3.selectAll("#s3.chartline")
+                    .attr("opacity", 0);
+                show3 = 0;
+            } else {
+                d3.select("#s3.switch")
+                    .attr("class", "switch on");
+                d3.selectAll("#s3.chartline")
+                    .attr("opacity", 1);
+                show3 = 1;
+            }
+        });
 
-    d3.select("div#s4").on("click", function () {
-        if (show4 == 1) {
-            d3.select("#s4.switch")
-                .attr("class", "switch off");
-            d3.selectAll("#s4.chartline")
-                .attr("opacity", 0);
-            show4 = 0;
-        } else {
-            d3.select("#s4.switch")
-                .attr("class", "switch on");
-            d3.selectAll("#s4.chartline")
-                .attr("opacity", 1);
-            show4 = 1;
-        }
-    });
+        d3.select("div#s4").on("click", function () {
+            if (show4 == 1) {
+                d3.select("#s4.switch")
+                    .attr("class", "switch off");
+                d3.selectAll("#s4.chartline")
+                    .attr("opacity", 0);
+                show4 = 0;
+            } else {
+                d3.select("#s4.switch")
+                    .attr("class", "switch on");
+                d3.selectAll("#s4.chartline")
+                    .attr("opacity", 1);
+                show4 = 1;
+            }
+        });*/
 
     d3.selectAll(".selector")
         .on("change", function (d, i) {

@@ -31,12 +31,10 @@
     left: 4px;
     position: relative;
     border-radius: 8px;
-
-    -webkit-transition:background-position .1s ease-in;  
-    -moz-transition:background-position .1s ease-in;  
-    -o-transition:background-position .1s ease-in;  
-    transition:background-position .1s ease-in; 
-
+    -webkit-transition: background-position .1s ease-in;
+    -moz-transition: background-position .1s ease-in;
+    -o-transition: background-position .1s ease-in;
+    transition: background-position .1s ease-in;
 }
 
 .off {
@@ -82,7 +80,7 @@
     color: #fff;
 }
 
-.s8{
+.s8 {
     background-color: #999;
-    color: #fff;  
+    color: #fff;
 }
