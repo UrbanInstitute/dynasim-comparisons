@@ -20,22 +20,22 @@ var groups = {
 };
 
 var names = {
-    race: ["White", "Black", "Hispanic", "Other"],
-    marstat: ["Single", "Married", "Divorced", "Widowed"],
+    race: ["Non-Hispanic white", "African-American", "Hispanic", "Other"],
+    marstat: ["Never married", "Married", "Divorced or separated", "Widowed"],
     gender: ["Female", "Male"],
-    education: ["Some High School", "High School Graduate", "Some College", "College Graduate"],
+    education: ["No high school diploma", "High school diploma only", "Some college but no bachelor’s degree", "Bachelor’s degree"],
     age: ["62-69", "70-74", "75-79", "80-84", "85+"]
 };
 
 var xlabel = {
-    ss: "Social security percentile",
+    ss: "Social Security percentile",
     wealth: "Wealth percentile",
     income: "Income percentile"
 }
 var ymax = {
     ss: 50000,
-    wealth: 2000000,
-    income: 500000
+    wealth: 1000000,
+    income: 200000
 };
 
 var yformat = {
@@ -79,7 +79,7 @@ function maingraph(container_width) {
     $linechart.empty();
 
     var x = d3.scale.linear()
-        .domain([0, 100])
+        .domain([0, 90])
         .range([0, width]);
 
     var y = d3.scale.linear()
@@ -103,7 +103,7 @@ function maingraph(container_width) {
 
     //filter - later do this with dropdowns
     data = minutes.filter(function (d) {
-        return d.year == yearSelect & d.category == demSelect;
+        return d.year == yearSelect & d.category == demSelect & d.percentile<91;
     });
     LABELS = names[demSelect];
 
