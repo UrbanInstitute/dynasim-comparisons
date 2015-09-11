@@ -64,12 +64,6 @@ function maingraph(container_width) {
     demSelect = d3.select("#dem-select").property("value");
     yearSelect = d3.select("#year-select").property("value");
     outcomeSelect = d3.select("#outcome-select").property("value");
-    var temp = d3.select('input[name="pceq"]:checked').node().id;
-    if (temp == "pc") {
-        groupsSelect = groups_pc;
-    } else if (temp == "eq") {
-        groupsSelect = groups_eq;
-    }
 
     if (container_width == undefined || isNaN(container_width)) {
         container_width = 1170;
@@ -150,7 +144,6 @@ function maingraph(container_width) {
         };
     }
 
-
     // Add an SVG for each demographic value
     var svg = d3.select("#linechart").selectAll("svg")
         .data(data_nest)
@@ -223,23 +216,20 @@ function maingraph(container_width) {
         })
         .attr("id", function (d) {
             var splitter = d.name.split("_");
-            return "s" + splitter[splitter.length - 1];
+            return "s" + splitter[splitter.length - 2];
         })
         .attr("opacity", function (d) {
-            if (d.name == "ss_1" | d.name == "wealth_1" | d.name == "income_1") {
+            if (d.id == "s1") {
                 return show1;
-            } else if (d.name == "ss_2" | d.name == "wealth_2" | d.name == "income_2") {
+            } else if (d.id == "s2") {
                 return show2;
-            } else if (d.name == "ss_3" | d.name == "wealth_3" | d.name == "income_3") {
-                return show3;
-            } else if (d.name == "ss_4" | d.name == "wealth_4" | d.name == "income_4") {
-                return show4;
             }
         })
         .attr("stroke", function (d) {
             return color(d.name);
         });
 
+    console.log(groupsSelect[outcomeSelect]);
 
     if (pymChild) {
         pymChild.sendHeight();
@@ -249,7 +239,15 @@ function maingraph(container_width) {
 
 function selections() {
 
+    groupsSelect = groups_pc;
+
     $('#toggler').click(function (e) {
+        var temp = d3.select('input[name="pceq"]:checked').node().id;
+        if (temp == "eq") {
+            groupsSelect = groups_pc;
+        } else if (temp == "pc") {
+            groupsSelect = groups_eq;
+        }
         maingraph();
     });
 
