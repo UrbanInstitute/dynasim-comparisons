@@ -8,56 +8,59 @@ var linechart_aspect_height = 0.8;
 var pymchild = null;
 var equivbtn = false;
 
-var COLORS = ["#fdbf11", "#ec008b"];
+var COLORS = ["#fdbf11", "#ec008b", "#000000", "#d2d2d2", "#55b748", "#12719e", "#1696d2", "#999"];
 var LABELS,
     demSelect,
     yearSelect,
     outcomeSelect;
 
 var groups_pc = {
-    ss: ["ss_1_pc", "ss_2_pc"],
-    wealth: ["wealth_1_pc", "wealth_2_pc"],
-    income: ["income_1_pc", "income_2_pc"]
+    ss: ["ss_1_pc", "ss_2_pc", "ss_3_pc", "ss_4_pc", "ss_5_pc", "ss_6_pc", "ss_7_pc", "ss_8_pc"],
+    netinc: ["netinc_1_pc", "netinc_2_pc", "netinc_3_pc", "netinc_4_pc", "netinc_5_pc", "netinc_6_pc", "netinc_7_pc", "netinc_8_pc"],
+    income: ["income_1_pc", "income_2_pc", "income_3_pc", "income_4_pc", "income_5_pc", "income_6_pc", "income_7_pc", "income_8_pc"]
 };
 var groups_eq = {
-    ss: ["ss_1_eq", "ss_2_eq"],
-    wealth: ["wealth_1_eq", "wealth_2_eq"],
-    income: ["income_1_eq", "income_2_eq"]
+    ss: ["ss_1_eq", "ss_2_eq", "ss_3_eq", "ss_4_eq", "ss_5_eq", "ss_6_eq", "ss_7_eq", "ss_8_eq"],
+    netinc: ["netinc_1_eq", "netinc_2_eq", "netinc_3_eq", "netinc_4_eq", "netinc_5_eq", "netinc_6_eq", "netinc_7_eq", "netinc_8_eq"],
+    income: ["income_1_eq", "income_2_eq", "income_3_eq", "income_4_eq", "income_5_eq", "income_6_eq", "income_7_eq", "income_8_eq"]
 };
 var groupsSelect;
 
 var names = {
     race: ["Non-Hispanic white", "African-American", "Hispanic", "Other"],
-    //use with new data that has reordered catval:
     marstat: ["Married", "Divorced or separated", "Widowed", "Never married"],
-    //old order
-    //marstat: ["Never married", "Married", "Divorced or separated", "Widowed"],
     gender: ["Female", "Male"],
     education: ["No high school diploma", "High school diploma only", "Some college but no bachelor’s degree", "Bachelor’s degree"],
-    age: ["62-69", "70-74", "75-79", "80-84", "85+"]
+    age: ["62-69", "70-74", "75-79", "80-84", "85+"],
+    all: ["All"]
 };
 
 var xlabel = {
     ss: "Social Security percentile",
-    wealth: "Wealth percentile",
-    income: "Income percentile"
+    netinc: "Net income percentile",
+    income: "Total income percentile"
 }
 var ymax = {
     ss: 50000,
-    wealth: 1000000,
-    income: 200000
+    netinc: 100000,
+    income: 140000
 };
 
 var yformat = {
     ss: d3.format("$,.1s"),
-    wealth: d3.format("$,.2s"),
-    income: d3.format("$,.1s")
+    netinc: d3.format("$,.2s"),
+    income: d3.format("$,.2s")
 };
 
 var show1 = 1,
     show2 = 1,
     show3 = 1,
-    show4 = 1;
+    show4 = 1,
+    show5 = 1,
+    show6 = 1,
+    show7 = 1,
+    show8 = 1;
+
 
 function maingraph(container_width) {
 
@@ -225,6 +228,18 @@ function maingraph(container_width) {
                 return show1;
             } else if (splitter[splitter.length - 2] == 2) {
                 return show2;
+            } else if (splitter[splitter.length - 2] == 3) {
+                return show3;
+            } else if (splitter[splitter.length - 2] == 4) {
+                return show4;
+            } else if (splitter[splitter.length - 2] == 5) {
+                return show5;
+            } else if (splitter[splitter.length - 2] == 6) {
+                return show6;
+            } else if (splitter[splitter.length - 2] == 7) {
+                return show7;
+            } else if (splitter[splitter.length - 2] == 8) {
+                return show8;
             }
         })
         .attr("stroke", function (d) {
@@ -285,37 +300,101 @@ function selections() {
         }
     });
 
-    /*    d3.select("div#s3").on("click", function () {
-            if (show3 == 1) {
-                d3.select("#s3.switch")
-                    .attr("class", "switch off");
-                d3.selectAll("#s3.chartline")
-                    .attr("opacity", 0);
-                show3 = 0;
-            } else {
-                d3.select("#s3.switch")
-                    .attr("class", "switch on");
-                d3.selectAll("#s3.chartline")
-                    .attr("opacity", 1);
-                show3 = 1;
-            }
-        });
+    d3.select("div#s3").on("click", function () {
+        if (show3 == 1) {
+            d3.select("#s3.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s3.chartline")
+                .attr("opacity", 0);
+            show3 = 0;
+        } else {
+            d3.select("#s3.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s3.chartline")
+                .attr("opacity", 1);
+            show3 = 1;
+        }
+    });
 
-        d3.select("div#s4").on("click", function () {
-            if (show4 == 1) {
-                d3.select("#s4.switch")
-                    .attr("class", "switch off");
-                d3.selectAll("#s4.chartline")
-                    .attr("opacity", 0);
-                show4 = 0;
-            } else {
-                d3.select("#s4.switch")
-                    .attr("class", "switch on");
-                d3.selectAll("#s4.chartline")
-                    .attr("opacity", 1);
-                show4 = 1;
-            }
-        });*/
+    d3.select("div#s4").on("click", function () {
+        if (show4 == 1) {
+            d3.select("#s4.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s4.chartline")
+                .attr("opacity", 0);
+            show4 = 0;
+        } else {
+            d3.select("#s4.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s4.chartline")
+                .attr("opacity", 1);
+            show4 = 1;
+        }
+    });
+
+    d3.select("div#s5").on("click", function () {
+        if (show5 == 1) {
+            d3.select("#s5.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s5.chartline")
+                .attr("opacity", 0);
+            show5 = 0;
+        } else {
+            d3.select("#s5.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s5.chartline")
+                .attr("opacity", 1);
+            show5 = 1;
+        }
+    });
+
+    d3.select("div#s6").on("click", function () {
+        if (show6 == 1) {
+            d3.select("#s6.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s6.chartline")
+                .attr("opacity", 0);
+            show6 = 0;
+        } else {
+            d3.select("#s6.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s6.chartline")
+                .attr("opacity", 1);
+            show6 = 1;
+        }
+    });
+
+    d3.select("div#s7").on("click", function () {
+        if (show7 == 1) {
+            d3.select("#s7.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s7.chartline")
+                .attr("opacity", 0);
+            show7 = 0;
+        } else {
+            d3.select("#s7.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s7.chartline")
+                .attr("opacity", 1);
+            show7 = 1;
+        }
+    });
+
+    d3.select("div#s8").on("click", function () {
+        if (show8 == 1) {
+            d3.select("#s8.switch")
+                .attr("class", "switch off");
+            d3.selectAll("#s8.chartline")
+                .attr("opacity", 0);
+            show8 = 0;
+        } else {
+            d3.select("#s8.switch")
+                .attr("class", "switch on");
+            d3.selectAll("#s8.chartline")
+                .attr("opacity", 1);
+            show8 = 1;
+        }
+    });
 
     d3.selectAll(".selector")
         .on("change", function (d, i) {
