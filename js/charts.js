@@ -27,7 +27,7 @@ var groups_eq = {
 var groupsSelect;
 
 var names = {
-    race: ["Non-Hispanic white", "African-American", "Hispanic", "Other"],
+    race: ["Non-Hispanic white", "African American", "Hispanic", "Other"],
     marstat: ["Married", "Divorced or separated", "Widowed", "Never married"],
     gender: ["Female", "Male"],
     education: ["No high school diploma", "High school diploma only", "Some college but no bachelor’s degree", "Bachelor’s degree"],
