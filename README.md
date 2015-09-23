@@ -1,4 +1,5 @@
-#Dynasim policy scenario comparer
-Compare the distribution of wealth, income, and social security by demographic group at 6 points in time.
+#Dynasim: Exploring Social Security reform options
+Compare the distribution of Social Security, total income, and net income by demographic group and year under several reform options.
+Data source: Urban Institute's Dynamic Simulation of Income Model (DYNASIM), 2015
 
-For each scenario, run function in [formatdata.R](scripts/formatdata.R) to make long and join to the other scenarios, creating [allscenarios.csv](data/allscenarios.csv)
+Run [formatdata.R](scripts/formatdata.R) to format and join researcher-provided CSVs, creating [allscenarios_new.csv](data/allscenarios_new.csv)

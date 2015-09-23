@@ -111,6 +111,7 @@ eq <- left_join(s1_eq,s2_eq,by=c("year","category","catval", "percentile")) %>%
   left_join(.,s7_eq,by=c("year","category","catval", "percentile")) %>% 
   left_join(.,s8_eq,by=c("year","category","catval", "percentile"))
 
+all <- left_join(pc,eq,by=c("year","category","catval", "percentile"))
 write.csv(all, "data/allscenarios_new.csv",na="",row.names = F)
 
 #read in later sessions
