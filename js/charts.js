@@ -1,4 +1,4 @@
-var mobile_threshold = 700;
+var mobile_threshold = 600;
 var data;
 var minutes;
 var $linechart = $('#linechart');
@@ -211,7 +211,6 @@ function maingraph(container_width) {
         .enter().append("g")
         .attr("class", "group");
 
-    console.log(show1, show2);
     //id = scenario number
     lines.append("path")
         .attr("class", "chartline")
@@ -246,11 +245,9 @@ function maingraph(container_width) {
             return color(d.name);
         });
 
-    //console.log(groupsSelect[outcomeSelect]);
-
-    if (pymChild) {
+    /*if (pymChild) {
         pymChild.sendHeight();
-    }
+    }*/
 
 }
 
@@ -398,7 +395,9 @@ function selections() {
 
     d3.selectAll(".selector")
         .on("change", function (d, i) {
-            maingraph();
+            pymChild = new pym.Child({
+                renderCallback: maingraph
+            });
         });
 }
 
