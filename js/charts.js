@@ -1,4 +1,4 @@
-var mobile_threshold = 600;
+var mobile_threshold = 700;
 var data;
 var minutes;
 var $linechart = $('#linechart');
