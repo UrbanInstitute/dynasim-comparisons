@@ -262,7 +262,9 @@ function selections() {
         } else if (temp == "pc") {
             groupsSelect = groups_eq;
         }
-        maingraph();
+        pymChild = new pym.Child({
+            renderCallback: maingraph
+        });
     });
 
     d3.select("div#s1").on("click", function () {
