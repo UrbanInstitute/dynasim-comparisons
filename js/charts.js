@@ -135,10 +135,17 @@ function maingraph(container_width) {
             return {
                 name: name,
                 values: (charts[i].values).map(function (d) {
-                    return {
-                        percentile: d.percentile,
-                        val: +d[name]
-                    };
+                    if (d[name] == "") {
+                        return {
+                            percentile: d.percentile,
+                            val: null
+                        };
+                    } else {
+                        return {
+                            percentile: d.percentile,
+                            val: +d[name]
+                        };
+                    }
                 })
             };
         });
@@ -147,6 +154,8 @@ function maingraph(container_width) {
             values: chart
         };
     }
+
+    console.log(charts);
 
     // Add an SVG for each demographic value
     var svg = d3.select("#linechart").selectAll("svg")
@@ -198,6 +207,9 @@ function maingraph(container_width) {
 
     var line = d3.svg.line()
         .interpolate("basis")
+        .defined(function (d) {
+            return d.val != null;
+        })
         .x(function (d) {
             return x(d.percentile);
         })
