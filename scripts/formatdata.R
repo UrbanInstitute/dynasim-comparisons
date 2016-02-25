@@ -112,7 +112,22 @@ eq <- left_join(s1_eq,s2_eq,by=c("year","category","catval", "percentile")) %>%
   left_join(.,s8_eq,by=c("year","category","catval", "percentile"))
 
 all <- left_join(pc,eq,by=c("year","category","catval", "percentile"))
-write.csv(all, "data/allscenarios_new.csv",na="",row.names = F)
+# Show all values as percent of current law scheduled (scenario 1)
+for (i in 2:8) {
+	all[,paste("netinc", i, "pc", sep="_")] = all[,paste("netinc", i, "pc", sep="_")]/ all$netinc_1_pc
+	all[,paste("ss", i, "pc", sep="_")] = all[,paste("ss", i, "pc", sep="_")]/ all$ss_1_pc
+	all[,paste("income", i, "pc", sep="_")] = all[,paste("income", i, "pc", sep="_")]/ all$income_1_pc
+	
+	all[,paste("netinc", i, "eq", sep="_")] = all[,paste("netinc", i, "eq", sep="_")]/ all$netinc_1_eq
+	all[,paste("ss", i, "eq", sep="_")] = all[,paste("ss", i, "eq", sep="_")]/ all$ss_1_eq
+	all[,paste("income", i, "eq", sep="_")] = all[,paste("income", i, "eq", sep="_")]/ all$income_1_eq
+}
+
+summary(all)
+# 0/0  = infinite
+all[mapply(is.infinite, all)] <- NA
+
+write.csv(all, "data/allscenarios_compare.csv",na="",row.names = F)
 
 #read in later sessions
 all <- read.csv("data/allscenarios_new.csv", stringsAsFactors = F)
