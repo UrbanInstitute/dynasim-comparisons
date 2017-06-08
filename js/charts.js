@@ -2,7 +2,7 @@ var mobile_threshold = 700;
 var data;
 var minutes;
 var $linechart = $('#linechart');
-var linechart_data_url = "data/allscenarios_compare.csv";
+var linechart_data_url = "data/allscenarios_new.csv";
 var linechart_aspect_width = 1;
 var linechart_aspect_height = 0.8;
 var pymchild = null;
@@ -76,7 +76,7 @@ function maingraph(container_width) {
         top: 45,
         right: 40,
         bottom: 50,
-        left: 40
+        left: 60
     };
 
     if (container_width < mobile_threshold) {
@@ -97,7 +97,7 @@ function maingraph(container_width) {
 
     var y = d3.scale.linear()
         //.domain([0, (ymax[outcomeSelect])])
-        .domain([0.5, 1.25])
+        .domain([0, 40000])
         .range([height, 0]);
 
     var color = d3.scale.ordinal()
@@ -112,7 +112,7 @@ function maingraph(container_width) {
         .scale(y)
         .tickSize(-width)
         .ticks(6)
-        .tickFormat(d3.format("%"))
+        .tickFormat(d3.format("$,"))
         .orient("left");
 
     //filter - later do this with dropdowns
