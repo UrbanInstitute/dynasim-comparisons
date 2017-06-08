@@ -96,8 +96,8 @@ function maingraph(container_width) {
         .range([0, width]);
 
     var y = d3.scale.linear()
-        //.domain([0, (ymax[outcomeSelect])])
-        .domain([0, 40000])
+        .domain([0, (ymax[outcomeSelect])])
+        // .domain([0, 40000])
         .range([height, 0]);
 
     var color = d3.scale.ordinal()
