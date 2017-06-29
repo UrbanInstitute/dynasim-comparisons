@@ -8,21 +8,21 @@ var linechart_aspect_height = 0.8;
 var pymchild = null;
 var equivbtn = false;
 
-var COLORS = ["#fdbf11", "#ec008b", "#ccc", "#55b748", "#12719e", "#1696d2", "#f1aaa9"];
+var COLORS = ["#169626", "#020202", "#000000","#fdbf11", "#ec008b", "#55b748", "#5c5859", "#db2b27"];
 var LABELS,
     demSelect,
     yearSelect,
     outcomeSelect;
 
 var groups_pc = {
-    ss: ["ss_2_pc", "ss_3_pc", "ss_4_pc", "ss_5_pc", "ss_6_pc", "ss_7_pc", "ss_8_pc"],
-    netinc: ["netinc_2_pc", "netinc_3_pc", "netinc_4_pc", "netinc_5_pc", "netinc_6_pc", "netinc_7_pc", "netinc_8_pc"],
-    income: ["income_2_pc", "income_3_pc", "income_4_pc", "income_5_pc", "income_6_pc", "income_7_pc", "income_8_pc"]
+    ss: ["ss_1_pc", "ss_2_pc", "ss_3_pc", "ss_4_pc", "ss_5_pc", "ss_6_pc", "ss_7_pc", "ss_8_pc"],
+    netinc: ["netinc_1_pc","netinc_2_pc", "netinc_3_pc", "netinc_4_pc", "netinc_5_pc", "netinc_6_pc", "netinc_7_pc", "netinc_8_pc"],
+    income: ["income_1_pc", "income_2_pc", "income_3_pc", "income_4_pc", "income_5_pc", "income_6_pc", "income_7_pc", "income_8_pc"]
 };
 var groups_eq = {
-    ss: ["ss_2_eq", "ss_3_eq", "ss_4_eq", "ss_5_eq", "ss_6_eq", "ss_7_eq", "ss_8_eq"],
-    netinc: ["netinc_2_eq", "netinc_3_eq", "netinc_4_eq", "netinc_5_eq", "netinc_6_eq", "netinc_7_eq", "netinc_8_eq"],
-    income: ["income_2_eq", "income_3_eq", "income_4_eq", "income_5_eq", "income_6_eq", "income_7_eq", "income_8_eq"]
+    ss: ["ss_1_eq", "ss_2_eq", "ss_3_eq", "ss_4_eq", "ss_5_eq", "ss_6_eq", "ss_7_eq", "ss_8_eq"],
+    netinc: ["netinc_1_eq", "netinc_2_eq", "netinc_3_eq", "netinc_4_eq", "netinc_5_eq", "netinc_6_eq", "netinc_7_eq", "netinc_8_eq"],
+    income: ["income_1_eq", "income_2_eq", "income_3_eq", "income_4_eq", "income_5_eq", "income_6_eq", "income_7_eq", "income_8_eq"]
 };
 var groupsSelect;
 
@@ -280,7 +280,7 @@ function selections() {
         });
     });
 
-    /*d3.select("div#s1").on("click", function () {
+    d3.select("div#s1").on("click", function () {
         if (show1 == 1) {
             d3.select("#s1.switch")
                 .attr("class", "switch off");
@@ -294,7 +294,7 @@ function selections() {
                 .attr("opacity", 1);
             show1 = 1;
         }
-    });*/
+    });
 
     d3.select("div#s2").on("click", function () {
         if (show2 == 1) {
