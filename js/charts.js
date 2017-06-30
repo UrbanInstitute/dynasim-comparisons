@@ -301,7 +301,7 @@ function selections() {
         });
     });
 
-	$('#toggler2').click(function() {
+	$('#toggler2').click(function(e) {
 		$('#toggler1').click();
 	});
 
