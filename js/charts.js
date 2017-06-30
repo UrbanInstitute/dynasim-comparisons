@@ -8,7 +8,7 @@ var linechart_aspect_height = 0.8;
 var pymchild = null;
 var equivbtn = false;
 
-var COLORS = ["#169626", "#020202", "#000000","#fdbf11", "#ec008b", "#55b748", "#5c5859", "#db2b27"];
+var COLORS = ["#1696d2", "#d2d2d2", "#000000", "#fdbf11", "#ec008b", "#55b748", "#5c5859", "#db2b27"];
 var LABELS,
     demSelect,
     yearSelect,
@@ -23,6 +23,16 @@ var groups_eq = {
     ss: ["ss_1_eq", "ss_2_eq", "ss_3_eq", "ss_4_eq", "ss_5_eq", "ss_6_eq", "ss_7_eq", "ss_8_eq"],
     netinc: ["netinc_1_eq", "netinc_2_eq", "netinc_3_eq", "netinc_4_eq", "netinc_5_eq", "netinc_6_eq", "netinc_7_eq", "netinc_8_eq"],
     income: ["income_1_eq", "income_2_eq", "income_3_eq", "income_4_eq", "income_5_eq", "income_6_eq", "income_7_eq", "income_8_eq"]
+};
+var groups_pc_change = {
+    ss: ["ss_1_pc_change", "ss_2_pc_change", "ss_3_pc_change", "ss_4_pc_change", "ss_5_pc_change", "ss_6_pc_change", "ss_7_pc_change", "ss_8_pc_change"],
+    netinc: ["netinc_1_pc_change","netinc_2_pc_change", "netinc_3_pc_change", "netinc_4_pc_change", "netinc_5_pc_change", "netinc_6_pc_change", "netinc_7_pc_change", "netinc_8_pc_change"],
+    income: ["income_1_pc_change", "income_2_pc_change", "income_3_pc_change", "income_4_pc_change", "income_5_pc_change", "income_6_pc_change", "income_7_pc_change", "income_8_pc_change"]
+};
+var groups_eq_change = {
+    ss: ["ss_1_eq_change", "ss_2_eq_change", "ss_3_eq_change", "ss_4_eq_change", "ss_5_eq_change", "ss_6_eq_change", "ss_7_eq_change", "ss_8_eq_change"],
+    netinc: ["netinc_1_eq_change", "netinc_2_eq_change", "netinc_3_eq_change", "netinc_4_eq_change", "netinc_5_eq_change", "netinc_6_eq_change", "netinc_7_eq_change", "netinc_8_eq_change"],
+    income: ["income_1_eq_change", "income_2_eq_change", "income_3_eq_change", "income_4_eq_change", "income_5_eq_change", "income_6_eq_change", "income_7_eq_change", "income_8_eq_change"]
 };
 var groupsSelect;
 
@@ -40,10 +50,17 @@ var xlabel = {
     netinc: "Net income percentile",
     income: "Total income percentile"
 }
+
 var ymax = {
     ss: 50000,
     netinc: 100000,
     income: 140000
+};
+
+var ymin = {
+	ss: 0,
+	netinc: 0,
+	income: 0
 };
 
 var yformat = {
@@ -97,7 +114,6 @@ function maingraph(container_width) {
 
     var y = d3.scale.linear()
         .domain([0, (ymax[outcomeSelect])])
-        // .domain([0, 40000])
         .range([height, 0]);
 
     var color = d3.scale.ordinal()
@@ -269,12 +285,17 @@ function selections() {
     groupsSelect = groups_pc;
 
     $('#toggler').click(function (e) {
-        var temp = d3.select('input[name="pceq"]:checked').node().id;
-        if (temp == "eq") {
+        var temp1 = d3.select('input[name="pceq"]:checked').node().id;
+        var temp2 = d3.select('input[name="levelchange"]:checked').node().id;
+        if (temp1 == "pc" && temp2 == "level") {
             groupsSelect = groups_pc;
-        } else if (temp == "pc") {
+        } else if (temp1 == "eq" && temp2 == "level") {
             groupsSelect = groups_eq;
-        }
+        } else if (temp1 == "pc" && temp2 == "change") {
+			groupsSelect = groups_pc_change;
+		} else if (temp1 == "eq" && temp2 == "change") {
+			groupsSelect = groups_eq_change;
+		}
         pymChild = new pym.Child({
             renderCallback: maingraph
         });
