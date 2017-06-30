@@ -284,7 +284,7 @@ function selections() {
 
     groupsSelect = groups_pc;
 
-    $('#toggler').click(function (e) {
+    $('#toggler1').click(function (e) {
         var temp1 = d3.select('input[name="pceq"]:checked').node().id;
         var temp2 = d3.select('input[name="levelchange"]:checked').node().id;
         if (temp1 == "pc" && temp2 == "level") {
@@ -300,6 +300,10 @@ function selections() {
             renderCallback: maingraph
         });
     });
+
+	$('#toggler2').click(function() {
+		$('#toggler1').click();
+	});
 
     d3.select("div#s1").on("click", function () {
         if (show1 == 1) {
