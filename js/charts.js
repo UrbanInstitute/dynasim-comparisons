@@ -81,6 +81,7 @@ var show1 = 1,
 
 function maingraph(container_width) {
 
+
     demSelect = d3.select("#dem-select").property("value");
     yearSelect = d3.select("#year-select").property("value");
     outcomeSelect = d3.select("#outcome-select").property("value");
@@ -286,9 +287,8 @@ function selections() {
 	var temp1 = "pc";
 	var temp2 = "level";
 
-	$(document).ready(function(){
-    $('#toggler1').click(function (e) {
-        var temp1 = d3.select('input[name="pceq"]:checked').node().id;
+    $('#toggler1 label').click(function (e) {
+        var temp1 = d3.select(this).select('input').node().id;
         var temp2 = d3.select('input[name="levelchange"]:checked').node().id;
         if (temp1 == "pc" && temp2 == "level") {
             groupsSelect = groups_pc;
@@ -304,9 +304,11 @@ function selections() {
         });
     });
 
-    $('#toggler2').click(function (e) {
+    $('#toggler2 label').click(function (e) {
+        // console.log(this)
         var temp1 = d3.select('input[name="pceq"]:checked').node().id;
-        var temp2 = d3.select('input[name="levelchange"]:checked').node().id;
+        var temp2 = d3.select(this).select('input').node().id;
+        console.log(temp1, temp2)
         if (temp1 == "pc" && temp2 == "level") {
             groupsSelect = groups_pc;
         } else if (temp1 == "eq" && temp2 == "level") {
@@ -320,7 +322,6 @@ function selections() {
             renderCallback: maingraph
         });
     });
-	});
 
     d3.select("div#s1").on("click", function () {
         if (show1 == 1) {
