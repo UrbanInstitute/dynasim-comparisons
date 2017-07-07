@@ -40,8 +40,8 @@ var names = {
     race: ["Non-Hispanic white", "African American", "Hispanic", "Other"],
     marstat: ["Married", "Divorced or separated", "Widowed", "Never married"],
     gender: ["Female", "Male"],
-    education: ["No high school diploma", "High school diploma only", "Some college but no bachelorâ€™s degree", "Bachelorâ€™s degree"],
-    age: ["62â€“69", "70â€“74", "75â€“79", "80â€“84", "85+"],
+    education: ["No high school diploma", "High school diploma only", "Some college but no bachelor’s degree", "Bachelor’s degree"],
+    age: ["62–69", "70–74", "75–79", "80–84", "85+"],
     all: ["All"]
 };
 
@@ -274,16 +274,19 @@ function maingraph(container_width) {
             return color(d.name);
         });
 
-    /*if (pymChild) {
+    /* if (pymChild) {
         pymChild.sendHeight();
-    }*/
+    } */
 
 }
 
 function selections() {
 
     groupsSelect = groups_pc;
+	var temp1 = "pc";
+	var temp2 = "level";
 
+	$(document).ready(function(){
     $('#toggler1').click(function (e) {
         var temp1 = d3.select('input[name="pceq"]:checked').node().id;
         var temp2 = d3.select('input[name="levelchange"]:checked').node().id;
@@ -301,8 +304,22 @@ function selections() {
         });
     });
 
-	$('#toggler2').click(function(e) {
-		$('#toggler1').click();
+    $('#toggler2').click(function (e) {
+        var temp1 = d3.select('input[name="pceq"]:checked').node().id;
+        var temp2 = d3.select('input[name="levelchange"]:checked').node().id;
+        if (temp1 == "pc" && temp2 == "level") {
+            groupsSelect = groups_pc;
+        } else if (temp1 == "eq" && temp2 == "level") {
+            groupsSelect = groups_eq;
+        } else if (temp1 == "pc" && temp2 == "change") {
+			groupsSelect = groups_pc_change;
+		} else if (temp1 == "eq" && temp2 == "change") {
+			groupsSelect = groups_eq_change;
+		}
+        pymChild = new pym.Child({
+            renderCallback: maingraph
+        });
+    });
 	});
 
     d3.select("div#s1").on("click", function () {
