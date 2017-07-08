@@ -78,6 +78,8 @@ var show1 = 1,
     show7 = 1,
     show8 = 1;
 
+var temp1 = "pc";
+var temp2 = "level";
 
 function maingraph(container_width) {
 
@@ -113,8 +115,36 @@ function maingraph(container_width) {
         .domain([0, 100])
         .range([0, width]);
 
+	if (temp2 == "level") {
+
+		var ymax = {
+		    ss: 50000,
+		    netinc: 100000,
+		    income: 140000
+		};
+
+		var ymin = {
+			ss: 0,
+			netinc: 0,
+			income: 0
+		};
+	} else if (temp2 == "change") {
+
+		var ymax = {
+		    ss: 70000,
+		    netinc: 20000,
+		    income: 50000
+		};
+
+		var ymin = {
+			ss: -30000,
+			netinc: -50000,
+			income: -40000
+		};
+	}
+
     var y = d3.scale.linear()
-        .domain([0, (ymax[outcomeSelect])])
+        .domain([(ymin[outcomeSelect]), (ymax[outcomeSelect])])
         .range([height, 0]);
 
     var color = d3.scale.ordinal()
@@ -284,12 +314,10 @@ function maingraph(container_width) {
 function selections() {
 
     groupsSelect = groups_pc;
-	var temp1 = "pc";
-	var temp2 = "level";
 
     $('#toggler1 label').click(function (e) {
-        var temp1 = d3.select(this).select('input').node().id;
-        var temp2 = d3.select('input[name="levelchange"]:checked').node().id;
+        temp1 = d3.select(this).select('input').node().id;
+        temp2 = d3.select('input[name="levelchange"]:checked').node().id;
         if (temp1 == "pc" && temp2 == "level") {
             groupsSelect = groups_pc;
         } else if (temp1 == "eq" && temp2 == "level") {
@@ -306,8 +334,8 @@ function selections() {
 
     $('#toggler2 label').click(function (e) {
         // console.log(this)
-        var temp1 = d3.select('input[name="pceq"]:checked').node().id;
-        var temp2 = d3.select(this).select('input').node().id;
+        temp1 = d3.select('input[name="pceq"]:checked').node().id;
+        temp2 = d3.select(this).select('input').node().id;
         console.log(temp1, temp2)
         if (temp1 == "pc" && temp2 == "level") {
             groupsSelect = groups_pc;
