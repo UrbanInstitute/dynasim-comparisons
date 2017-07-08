@@ -127,7 +127,7 @@ pc <- pc %>%
          value_change = ifelse(grepl("netinc", key), value - netinc_1_pc, value_change),
          value_change = ifelse(grepl("ss", key), value - ss_1_pc, value_change),
          value_change = ifelse(grepl("income", key), value - income_1_pc, value_change)) %>%
-  mutate(key_change = paste0(key, "_change")) %>%
+  mutate(key_change = paste0("change_", key)) %>%
   select(-key, -value, -netinc_1_pc:-income_1_pc) %>%
   rename(key = key_change, value = value_change) %>%
   bind_rows(base) %>%
@@ -153,7 +153,7 @@ eq <- eq %>%
          value_change = ifelse(grepl("netinc", key), value - netinc_1_eq, value_change),
          value_change = ifelse(grepl("ss", key), value - ss_1_eq, value_change),
          value_change = ifelse(grepl("income", key), value - income_1_eq, value_change)) %>%
-  mutate(key_change = paste0(key, "_change")) %>%
+  mutate(key_change = paste0("change_", key)) %>%
   select(-key, -value, -netinc_1_eq:-income_1_eq) %>%
   rename(key = key_change, value = value_change) %>%
   bind_rows(base) %>%

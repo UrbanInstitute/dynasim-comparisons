@@ -24,15 +24,15 @@ var groups_eq = {
     netinc: ["netinc_1_eq", "netinc_2_eq", "netinc_3_eq", "netinc_4_eq", "netinc_5_eq", "netinc_6_eq", "netinc_7_eq", "netinc_8_eq"],
     income: ["income_1_eq", "income_2_eq", "income_3_eq", "income_4_eq", "income_5_eq", "income_6_eq", "income_7_eq", "income_8_eq"]
 };
-var groups_pc_change = {
-    ss: ["ss_1_pc_change", "ss_2_pc_change", "ss_3_pc_change", "ss_4_pc_change", "ss_5_pc_change", "ss_6_pc_change", "ss_7_pc_change", "ss_8_pc_change"],
-    netinc: ["netinc_1_pc_change","netinc_2_pc_change", "netinc_3_pc_change", "netinc_4_pc_change", "netinc_5_pc_change", "netinc_6_pc_change", "netinc_7_pc_change", "netinc_8_pc_change"],
-    income: ["income_1_pc_change", "income_2_pc_change", "income_3_pc_change", "income_4_pc_change", "income_5_pc_change", "income_6_pc_change", "income_7_pc_change", "income_8_pc_change"]
+var change_groups_pc = {
+    ss: ["change_ss_1_pc", "change_ss_2_pc", "change_ss_3_pc", "change_ss_4_pc", "change_ss_5_pc", "change_ss_6_pc", "change_ss_7_pc", "change_ss_8_pc"],
+    netinc: ["change_netinc_1_pc","change_netinc_2_pc", "change_netinc_3_pc", "change_netinc_4_pc", "change_netinc_5_pc", "change_netinc_6_pc", "change_netinc_7_pc", "change_netinc_8_pc"],
+    income: ["change_income_1_pc", "change_income_2_pc", "change_income_3_pc", "change_income_4_pc", "change_income_5_pc", "change_income_6_pc", "change_income_7_pc", "change_income_8_pc"]
 };
-var groups_eq_change = {
-    ss: ["ss_1_eq_change", "ss_2_eq_change", "ss_3_eq_change", "ss_4_eq_change", "ss_5_eq_change", "ss_6_eq_change", "ss_7_eq_change", "ss_8_eq_change"],
-    netinc: ["netinc_1_eq_change", "netinc_2_eq_change", "netinc_3_eq_change", "netinc_4_eq_change", "netinc_5_eq_change", "netinc_6_eq_change", "netinc_7_eq_change", "netinc_8_eq_change"],
-    income: ["income_1_eq_change", "income_2_eq_change", "income_3_eq_change", "income_4_eq_change", "income_5_eq_change", "income_6_eq_change", "income_7_eq_change", "income_8_eq_change"]
+var change_groups_eq = {
+    ss: ["change_ss_1_eq", "change_ss_2_eq", "change_ss_3_eq", "change_ss_4_eq", "change_ss_5_eq", "change_ss_6_eq", "change_ss_7_eq", "change_ss_8_eq"],
+    netinc: ["change_netinc_1_eq", "change_netinc_2_eq", "change_netinc_3_eq", "change_netinc_4_eq", "change_netinc_5_eq", "change_netinc_6_eq", "change_netinc_7_eq", "change_netinc_8_eq"],
+    income: ["change_income_1_eq", "change_income_2_eq", "change_income_3_eq", "change_income_4_eq", "change_income_5_eq", "change_income_6_eq", "change_income_7_eq", "change_income_8_eq"]
 };
 var groupsSelect;
 
@@ -284,6 +284,7 @@ function maingraph(container_width) {
         .attr("opacity", function (d) {
             var splitter = d.name.split("_");
             if (splitter[splitter.length - 2] == 1) {
+            	console.log(show1);
                 return show1;
             } else if (splitter[splitter.length - 2] == 2) {
                 return show2;
@@ -300,6 +301,9 @@ function maingraph(container_width) {
             } else if (splitter[splitter.length - 2] == 8) {
                 return show8;
             }
+
+
+
         })
         .attr("stroke", function (d) {
             return color(d.name);
@@ -323,9 +327,9 @@ function selections() {
         } else if (temp1 == "eq" && temp2 == "level") {
             groupsSelect = groups_eq;
         } else if (temp1 == "pc" && temp2 == "change") {
-			groupsSelect = groups_pc_change;
+			groupsSelect = change_groups_pc;
 		} else if (temp1 == "eq" && temp2 == "change") {
-			groupsSelect = groups_eq_change;
+			groupsSelect = change_groups_eq;
 		}
         pymChild = new pym.Child({
             renderCallback: maingraph
@@ -342,9 +346,9 @@ function selections() {
         } else if (temp1 == "eq" && temp2 == "level") {
             groupsSelect = groups_eq;
         } else if (temp1 == "pc" && temp2 == "change") {
-			groupsSelect = groups_pc_change;
+			groupsSelect = change_groups_pc;
 		} else if (temp1 == "eq" && temp2 == "change") {
-			groupsSelect = groups_eq_change;
+			groupsSelect = change_groups_eq;
 		}
         pymChild = new pym.Child({
             renderCallback: maingraph
