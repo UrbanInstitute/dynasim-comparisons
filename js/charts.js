@@ -131,15 +131,15 @@ function maingraph(container_width) {
 	} else if (temp2 == "change") {
 
 		var ymax = {
-		    ss: 70000,
-		    netinc: 20000,
-		    income: 50000
+		    ss: 8000,
+		    netinc: 5000,
+		    income: 7000
 		};
 
 		var ymin = {
-			ss: -30000,
-			netinc: -50000,
-			income: -40000
+			ss: -14000,
+			netinc: -8000,
+			income: -12000
 		};
 	}
 
