@@ -41,7 +41,7 @@ var names = {
     marstat: ["Married", "Divorced or separated", "Widowed", "Never married"],
     gender: ["Female", "Male"],
     education: ["No high school diploma", "High school diploma only", "Some college but no bachelor’s degree", "Bachelor’s degree"],
-    age: ["62–69", "70–74", "75–79", "80–84", "85+"],
+    age: ["62\-69", "70\-74", "75\-79", "80\-84", "85+"],
     all: ["All"]
 };
 

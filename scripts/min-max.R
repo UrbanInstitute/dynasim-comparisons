@@ -5,16 +5,7 @@
 library(tidyverse)
 
 
-dynasim <- read_csv("data/allscenarios_new.csv", 
-                    col_types = cols(
-                      .default = col_double(),
-                      year = col_integer(),
-                      category = col_character(),
-                      catval = col_integer(),
-                      percentile = col_integer(),
-                      ss_7_pc_change = col_integer(),
-                      ss_7_eq_change = col_integer()
-                    ))
+dynasim <- read_csv("data/allscenarios_new.csv", guess_max = 12000)
 
 dynasim_max <- dynasim %>%
   filter(percentile <= 95) %>%
