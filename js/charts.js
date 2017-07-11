@@ -71,12 +71,12 @@ var yformat = {
 
 var show1 = 1,
     show2 = 1,
-    show3 = 1,
-    show4 = 1,
-    show5 = 1,
-    show6 = 1,
-    show7 = 1,
-    show8 = 1;
+    show3 = 0,
+    show4 = 0,
+    show5 = 0,
+    show6 = 0,
+    show7 = 0,
+    show8 = 0;
 
 var temp1 = "pc";
 var temp2 = "level";
