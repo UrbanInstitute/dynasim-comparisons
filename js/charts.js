@@ -521,19 +521,35 @@ function selections() {
 }
 
 // Export data
-function export_csv() {
+function download_csv() {
 
-  console.log("click!");
-  var keys = d3.keys(data[0]);
-  var rows = actives().map(function(row) {
-    return keys.map(function(k) { return row[k]; })
-  });
-  var csv = d3.csv.format([keys].concat(rows)).replace(/\n/g,"<br/>\n");
-  var styles = "<style>body { font-family: sans-serif; font-size: 12px; }</style>";
-  window.open("text/csv").document.write(styles + csv);
+	// Load data in function-level scope
+	d3.csv(linechart_data_url, function (error, min) {
+		console.log(data);
+
+	// Create a row of variable names
+	var csv = d3.keys(data[0]) + "\n";
+
+	// Loop through rows and append as comma separated values with row escapes
+	for (var i = 0, len = data.length; i < len; i++) {
+	      	row = d3.values(data[i]);
+	      	csv += row.join();
+			csv += "\n";
+	}
+
+	// Create and download .csv
+	console.log(csv);
+	var hiddenElement = document.createElement('a');
+	hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+	hiddenElement.target = '_blank';
+	hiddenElement.download = 'dynasim.csv';
+    hiddenElement.click();
+
+	});
 }
 
-d3.select("#data-downloader").on("click", export_csv);
+// Click event for downloading data
+d3.select("#data-downloader").on("click", download_csv);
 
 $(window).load(function () {
     if (Modernizr.svg) {
