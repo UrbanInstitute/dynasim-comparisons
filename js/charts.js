@@ -520,6 +520,21 @@ function selections() {
         });
 }
 
+// Export data
+function export_csv() {
+
+  console.log("click!");
+  var keys = d3.keys(data[0]);
+  var rows = actives().map(function(row) {
+    return keys.map(function(k) { return row[k]; })
+  });
+  var csv = d3.csv.format([keys].concat(rows)).replace(/\n/g,"<br/>\n");
+  var styles = "<style>body { font-family: sans-serif; font-size: 12px; }</style>";
+  window.open("text/csv").document.write(styles + csv);
+}
+
+d3.select("#data-downloader").on("click", export_csv);
+
 $(window).load(function () {
     if (Modernizr.svg) {
         d3.csv(linechart_data_url, function (error, min) {
