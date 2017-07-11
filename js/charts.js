@@ -40,16 +40,31 @@ var names = {
     race: ["Non-Hispanic white", "African American", "Hispanic", "Other"],
     marstat: ["Married", "Divorced or separated", "Widowed", "Never married"],
     gender: ["Female", "Male"],
-    education: ["No high school diploma", "High school diploma only", "Some college but no bachelor’s degree", "Bachelor’s degree"],
+    education: ["No high school diploma", "High school diploma only", "Some college but no bachelor\’s degree", "Bachelor\’s degree"],
     age: ["62\-69", "70\-74", "75\-79", "80\-84", "85+"],
     all: ["All"]
+};
+
+var titleOutcome = {
+    ss: "Social Security income",
+    netinc: "Net income",
+    income: "Total income"
+};
+
+var titleName = {
+    race: "By race-ethnicity",
+    marstat: "By marital status",
+    gender: "By sex",
+    education: "By education level",
+    age: "By age",
+    all: ""
 };
 
 var xlabel = {
     ss: "Social Security percentile",
     netinc: "Net income percentile",
     income: "Total income percentile"
-}
+};
 
 var ymax = {
     ss: 50000,
@@ -232,6 +247,20 @@ function maingraph(container_width) {
     gy.selectAll("text")
         .attr("x", -4)
         .attr("dy", 4);
+
+	// Chart title
+	if (temp1 == "pc" && temp2 == "level") {
+		document.getElementById('chart-title').innerHTML = d3.select("#year-select").property("value") + " per capita " + titleOutcome[outcomeSelect];
+	} else if (temp1 == "eq" && temp2 == "level") {
+		document.getElementById('chart-title').innerHTML = d3.select("#year-select").property("value") + " equivalent " + titleOutcome[outcomeSelect];
+	} else if (temp1 == "pc" && temp2 == "change") {
+		document.getElementById('chart-title').innerHTML = "Change in " + d3.select("#year-select").property("value") + " per capita " + titleOutcome[outcomeSelect] + " compared to current law scheduled ";
+	} else if (temp1 == "eq" && temp2 == "change") {
+		document.getElementById('chart-title').innerHTML = "Change in " + d3.select("#year-select").property("value") + " equivalent " + titleOutcome[outcomeSelect] + " compared to current law scheduled ";
+	}
+
+	// Chart subtitle
+	document.getElementById('chart-subtitle').innerHTML = titleName[demSelect];
 
     //Title for each chart
     svg.append("g")
