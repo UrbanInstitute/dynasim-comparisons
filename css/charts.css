@@ -73,6 +73,9 @@ svg {
   display: inline-block;
 }
 
+#chart-titles {
+	display: inline.block;
+}
 
 
 
