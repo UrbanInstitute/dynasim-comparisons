@@ -527,7 +527,17 @@ function downloadSubset() {
 
 	console.log("Ping Subset");
 	// Load data in function-level scope
-	d3.csv(linechart_data_url, function (error, subset) {
+    var variables = ["year", "category", "catval", "percentile"];
+    var variables = variables.concat(groupsSelect[outcomeSelect]);
+    console.log(variables);
+
+	d3.csv(linechart_data_url, function(d){
+        var obj = {};
+        for(var i = 0; i<variables.length; i++){
+            obj[variables[i]] = d[variables[i]]
+        }
+        return obj
+    }, function (error, subset) {
 
 	//filter - later do this with dropdowns
 	subset = subset.filter(function (subset) {
@@ -535,9 +545,9 @@ function downloadSubset() {
     });
 
 	// select variables
-	var variables = ["year", "category", "catval", "percentile"];
-	var variables = variables.concat(groupsSelect[outcomeSelect]);
-	console.log(variables);
+
+
+
 
 	// Create a row of variable names
 	var csv = d3.keys(subset[0]) + "\n";
@@ -550,7 +560,6 @@ function downloadSubset() {
 	}
 
 	// Create and download .csv
-	console.log(csv);
 	var hiddenElement = document.createElement('a');
 	hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
 	hiddenElement.target = '_blank';
