@@ -40,7 +40,7 @@ var names = {
     race: ["Non-Hispanic white", "African American", "Hispanic", "Other"],
     marstat: ["Married", "Divorced or separated", "Widowed", "Never married"],
     gender: ["Female", "Male"],
-    education: ["No high school diploma", "High school diploma only", "Some college but no bachelor\’s degree", "Bachelor\’s degree"],
+    education: ["No high school diploma", "High school diploma only", "Some college but no bachelor\'s degree", "Bachelor\'s degree"],
     age: ["62\-69", "70\-74", "75\-79", "80\-84", "85+"],
     all: ["All"]
 };
@@ -54,7 +54,7 @@ var titleOutcome = {
 var titleName = {
     race: "By race-ethnicity",
     marstat: "By marital status",
-    gender: "By sex",
+    gender: "By gender",
     education: "By education level",
     age: "By age",
     all: ""
@@ -247,14 +247,21 @@ function maingraph(container_width) {
         .attr("dy", 4);
 
 	// Chart title
+	if (titleOutcome[outcomeSelect] == "Social Security income") {
+		title = "Social Security income";
+	} else {
+		title = titleOutcome[outcomeSelect].toLowerCase();
+		}
+	console.log(titleOutcome[outcomeSelect]);
+
 	if (temp1 == "pc" && temp2 == "level") {
-		document.getElementById('chart-title').innerHTML = d3.select("#year-select").property("value") + " per capita " + titleOutcome[outcomeSelect];
+		document.getElementById('chart-title').innerHTML = d3.select("#year-select").property("value") + " per capita " + title;
 	} else if (temp1 == "eq" && temp2 == "level") {
-		document.getElementById('chart-title').innerHTML = d3.select("#year-select").property("value") + " equivalent " + titleOutcome[outcomeSelect];
+		document.getElementById('chart-title').innerHTML = d3.select("#year-select").property("value") + " equivalent " + title;
 	} else if (temp1 == "pc" && temp2 == "change") {
-		document.getElementById('chart-title').innerHTML = "Change in " + d3.select("#year-select").property("value") + " per capita " + titleOutcome[outcomeSelect] + " compared to current law scheduled ";
+		document.getElementById('chart-title').innerHTML = "Change in " + d3.select("#year-select").property("value") + " per capita " + title + " compared with current law scheduled";
 	} else if (temp1 == "eq" && temp2 == "change") {
-		document.getElementById('chart-title').innerHTML = "Change in " + d3.select("#year-select").property("value") + " equivalent " + titleOutcome[outcomeSelect] + " compared to current law scheduled ";
+		document.getElementById('chart-title').innerHTML = "Change in " + d3.select("#year-select").property("value") + " equivalent " + title + " compared with current law scheduled";
 	}
 
 	// Chart subtitle
@@ -518,8 +525,6 @@ function selections() {
         });
 }
 
-
-
 var subset;
 var csv;
 // Export data subset
@@ -531,6 +536,7 @@ function downloadSubset() {
     var variables = variables.concat(groupsSelect[outcomeSelect]);
     console.log(variables);
 
+	// load .csv and select variables
 	d3.csv(linechart_data_url, function(d){
         var obj = {};
         for(var i = 0; i<variables.length; i++){
@@ -539,15 +545,10 @@ function downloadSubset() {
         return obj
     }, function (error, subset) {
 
-	//filter - later do this with dropdowns
+	//filter
 	subset = subset.filter(function (subset) {
 	    return subset.year == yearSelect & subset.category == demSelect & subset.percentile < 100;
     });
-
-	// select variables
-
-
-
 
 	// Create a row of variable names
 	var csv = d3.keys(subset[0]) + "\n";
