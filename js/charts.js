@@ -217,8 +217,6 @@ function maingraph(container_width) {
         };
     }
 
-    console.log(charts);
-
     // Add an SVG for each demographic value
     var svg = d3.select("#linechart").selectAll("svg")
         .data(data_nest)
@@ -519,6 +517,60 @@ function selections() {
             });
         });
 }
+
+
+
+var subset;
+var csv;
+// Export data subset
+function downloadSubset() {
+
+	console.log("Ping Subset");
+	// Load data in function-level scope
+    var variables = ["year", "category", "catval", "percentile"];
+    var variables = variables.concat(groupsSelect[outcomeSelect]);
+    console.log(variables);
+
+	d3.csv(linechart_data_url, function(d){
+        var obj = {};
+        for(var i = 0; i<variables.length; i++){
+            obj[variables[i]] = d[variables[i]]
+        }
+        return obj
+    }, function (error, subset) {
+
+	//filter - later do this with dropdowns
+	subset = subset.filter(function (subset) {
+	    return subset.year == yearSelect & subset.category == demSelect & subset.percentile < 100;
+    });
+
+	// select variables
+
+
+
+
+	// Create a row of variable names
+	var csv = d3.keys(subset[0]) + "\n";
+
+	// Loop through rows and append as comma separated values with row escapes
+	for (var i = 0, len = subset.length; i < len; i++) {
+	      	row = d3.values(subset[i]);
+	      	csv += row.join();
+			csv += "\n";
+	}
+
+	// Create and download .csv
+	var hiddenElement = document.createElement('a');
+	hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+	hiddenElement.target = '_blank';
+	hiddenElement.download = 'dynasim-subset.csv';
+    hiddenElement.click();
+
+	});
+}
+
+// Click event for downloading data
+d3.select("#subset-downloader").on("click", downloadSubset);
 
 $(window).load(function () {
     if (Modernizr.svg) {

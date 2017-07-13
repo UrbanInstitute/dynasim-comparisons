@@ -400,3 +400,45 @@
 .close-sm:hover:before {
     border-color: #fff;
 }
+
+/* Footer button */
+.footerButton {
+    float: left;
+    height: 40px;
+    width: 170px;
+    border: 1px solid #333;
+    cursor: pointer;
+    font: 13px Lato;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none !important;
+    color: #333 !important;
+}
+
+.footerButton:hover {
+    background: #fdbf11;
+    color: #fff !important;
+}
+
+#subset-downloader {
+    margin-left: 15px;
+}
+
+/* Togglers */
+.btn-group {
+    margin-bottom: 10px;
+}
+
+#toggler {
+  display: block;
+}
+
+#chart-title {
+	margin-top: 50px;
+}
+
+
+.chart-titles {
+	display: block;
+}
