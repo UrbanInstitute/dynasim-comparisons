@@ -70,11 +70,16 @@ svg {
 
 /* togglers */
 #toggler {
-  display: inline-block;
+  display: block;
 }
 
-#chart-titles {
-	display: inline.block;
+#chart-title {
+	margin-top: 50px;
+}
+
+
+.chart-titles {
+	display: block;
 }
 
 
