@@ -530,7 +530,6 @@ var csv;
 // Export data subset
 function downloadSubset() {
 
-	console.log("Ping Subset");
 	// Load data in function-level scope
     var variables = ["year", "category", "catval", "percentile"];
     var variables = variables.concat(groupsSelect[outcomeSelect]);
@@ -560,13 +559,27 @@ function downloadSubset() {
 			csv += "\n";
 	}
 
-	// Create and download .csv
-	var hiddenElement = document.createElement('a');
-	hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-	hiddenElement.target = '_blank';
-	hiddenElement.download = 'dynasim-subset.csv';
-    hiddenElement.click();
+	// Pick regular expression test for Internet Explorer
+	if (navigator.userAgent.indexOf('MSIE') != -1) {
+		var detectIEregexp = /MSIE (\d+\.\d+);/;	// test for IE<=10.0
+	}
+	else {
+		var detectIEregexp = /Trident.*rv[ :]*(\d+\.\d+)/; 	// test for IE>=11.0
+	}
 
+	// Create and download .csv
+	if (detectIEregexp.test(navigator.userAgent)){
+		console.log("Interent Explorer");
+		var csvBlob = new Blob([csv], {type: 'text/csv'});
+		window.navigator.msSaveBlob(csvBlob, 'dynasim-subset.csv');
+	} else {
+		console.log("NOT Internet Explorer");
+		var csvElement = document.createElement('a');
+		csvElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+		csvElement.target = '_blank';
+		csvElement.download = 'dynasim-subset.csv';
+    	csvElement.click();
+	}
 	});
 }
 
