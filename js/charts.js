@@ -565,22 +565,23 @@ function downloadSubset() {
 	// Microsoft Internet Explorer
 	if (navigator.msSaveBlob) {
 		console.log("Internet Explorer");
-    	csvURL = navigator.msSaveBlob(csvData, 'download.csv');
+    	window.navigator.msSaveBlob(csvData, 'dynasim-subset.csv');
 	} else {
 	// All other browsers
 		console.log("NOT Internet Explorer");
 	    csvURL = window.URL.createObjectURL(csvData);
+		var tempLink = document.createElement('a');
+		tempLink.href = csvURL;
+		tempLink.download = 'dynasim-subset.csv';
+    	document.body.appendChild(tempLink);
+		tempLink.click();
+    	// This delay is necessary for Firefox
+    	setTimeout(function(){
+    		document.body.removeChild(tempLink);
+    		window.URL.revokeObjectURL(csvURL);
+    	}, 100);
 	}
-	var tempLink = document.createElement('a');
-	tempLink.href = csvURL;
-	tempLink.download = 'download.csv';
-    document.body.appendChild(tempLink);
-	tempLink.click();
-    // This delay is necessary for Firefox
-    setTimeout(function(){
-    	document.body.removeChild(tempLink);
-    	window.URL.revokeObjectURL(csvURL);
-    }, 100);
+
 	});
 }
 
