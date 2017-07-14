@@ -559,27 +559,28 @@ function downloadSubset() {
 			csv += "\n";
 	}
 
-	// Pick regular expression test for Internet Explorer
-	if (navigator.userAgent.indexOf('MSIE') != -1) {
-		var detectIEregexp = /MSIE (\d+\.\d+);/;	// test for IE<=10.0
-	}
-	else {
-		var detectIEregexp = /Trident.*rv[ :]*(\d+\.\d+)/; 	// test for IE>=11.0
-	}
-
-	// Create and download .csv
-	if (detectIEregexp.test(navigator.userAgent)){
-		console.log("Interent Explorer");
-		var csvBlob = new Blob([csv], {type: 'text/csv'});
-		window.navigator.msSaveBlob(csvBlob, 'dynasim-subset.csv');
+	// Create Blob of .csv and download based on browser
+	var csvData = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+	var csvURL = null;
+	// Microsoft Internet Explorer
+	if (navigator.msSaveBlob) {
+		console.log("Internet Explorer");
+    	csvURL = navigator.msSaveBlob(csvData, 'download.csv');
 	} else {
+	// All other browsers
 		console.log("NOT Internet Explorer");
-		var csvElement = document.createElement('a');
-		csvElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-		csvElement.target = '_blank';
-		csvElement.download = 'dynasim-subset.csv';
-    	csvElement.click();
+	    csvURL = window.URL.createObjectURL(csvData);
 	}
+	var tempLink = document.createElement('a');
+	tempLink.href = csvURL;
+	tempLink.download = 'download.csv';
+    document.body.appendChild(tempLink);
+	tempLink.click();
+    // This delay is necessary for Firefox
+    setTimeout(function(){
+    	document.body.removeChild(tempLink);
+    	window.URL.revokeObjectURL(csvURL);
+    }, 100);
 	});
 }
 
