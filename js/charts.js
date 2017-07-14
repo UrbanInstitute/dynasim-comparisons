@@ -565,7 +565,7 @@ function downloadSubset() {
 	// Microsoft Internet Explorer
 	if (navigator.msSaveBlob) {
 		console.log("Internet Explorer");
-    	window.navigator.msSaveBlob(csvData, 'dynasim-subset.csv');
+    	window.navigator.msSaveOrOpenBlob(csvData, 'dynasim-subset.csv');
 	} else {
 	// All other browsers
 		console.log("NOT Internet Explorer");
