@@ -19,7 +19,7 @@
 }
 
 .switch {
-    background-image: url(../img/off-on.png);
+    background-image: url(../img/off-on2.png);
     background-repeat: no-repeat;
     width: 52px;
     height: 18px;
@@ -56,7 +56,7 @@
 }
 
 .s3 {
-    background-color: #000000;
+    background-color: #a2d4ec;
     color: #fff;
 }
 

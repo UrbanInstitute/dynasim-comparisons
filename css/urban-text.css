@@ -4,6 +4,9 @@ body {
     font-size: 16pt;
     color: #666;
 }
+*:focus{
+    outline: none;
+}
 
 h1,
 h2,
