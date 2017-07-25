@@ -70,11 +70,17 @@ svg {
 
 /* togglers */
 #toggler {
-  display: block;
+    display: block;
+}
+#toggler div{
+    width: 290px;
+    float: left;
 }
 
 #chart-title {
 	margin-top: 50px;
+    clear: both;
+    padding-top: 50px;
 }
 
 

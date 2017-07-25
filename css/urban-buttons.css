@@ -414,6 +414,7 @@
     padding: 10px;
     text-decoration: none !important;
     color: #333 !important;
+    margin-top: 20px;
 }
 
 .footerButton:hover {
@@ -424,7 +425,9 @@
 #subset-downloader {
     margin-left: 15px;
 }
-
+#data-downloader{
+    clear: both;
+}
 /* Togglers */
 .btn-group {
     margin-bottom: 10px;

@@ -8,7 +8,7 @@ var linechart_aspect_height = 0.8;
 var pymchild = null;
 var equivbtn = false;
 
-var COLORS = ["#1696d2", "#d2d2d2", "#000000", "#fdbf11", "#ec008b", "#55b748", "#5c5859", "#db2b27"];
+var COLORS = ["#1696d2", "#d2d2d2", "#a2d4ec", "#fdbf11", "#ec008b", "#55b748", "#5c5859", "#db2b27"];
 var LABELS,
     demSelect,
     yearSelect,
